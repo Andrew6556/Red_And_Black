@@ -1,6 +1,8 @@
 from math import radians
 import random
 import time
+import os
+from write_and_read import *
 from exceptions import NotCorrectColorIndex
 
 
@@ -29,6 +31,9 @@ class RedBlack:
         self.game_number = self.__generate_number()
 
     def get_prize_color_bet(self):
+        """Результат ставки - выйграл или проиграл"""
+        #если игровое число,есть в красном списке и
+        #число пользователя,есть в красном списке то он выйграл
         if (self.game_number in self.red_numbers and \
             self.user_number in self.red_numbers) or \
             (self.game_number in self.black_numbers and \
@@ -57,10 +62,14 @@ class RedBlack:
             Теперь у нас полноценная рулетка :)
         """
         return random.shuffle(self.game_box)
+        #random.shuffle перемешивает список
 
     def __generate_number(self):
         """Генерируем выйграшное число"""
-        return random.sample(self.game_box, 1)[0]
+        return random.sample(self.game_box, 1)[0]# <= Возращает не массив с чиcлом ,а только число
+        #random.sample берет массив за первый аргумент 
+        #и из него возращет рандомный список чисел(смотря скок надо)
+        
 
     @check_correct_index_color
     def __from_color_index_to_number(self, user_color_index):
@@ -70,6 +79,21 @@ class RedBlack:
             return random.sample(self.black_numbers, 1)[0]
         return 0
 
+    def adding_data_about_the_past_game(self,user_name, user_bank, color ):
+        if os.stat(f'data/game_statistics.json',).st_size:
+            data = read_json_file('game_statistics.json')
+        else:
+            data = []
+
+        data.append({
+            "username":self.username,
+            "user_bank":1000,
+            "bet":self.bet,
+            "color":color,
+            "result":1,
+        })
+
+        write_json_file('game_statistics.json', data)
 class GameInteface:
     
     def __init__(self, game):
@@ -100,6 +124,7 @@ class GameInteface:
             print(f"Выпало чёрное -- {self.game.game_number}")
         else:
             print(f"Выпало зелёное -- {self.game.game_number}")
+
     def checking_winning(self):
         game_result = self.game.get_prize_color_bet()
         if game_result < 0:
@@ -107,14 +132,3 @@ class GameInteface:
         else:
             print("Поздравялем с победой!")
 
-class User:
-
-    def __init__(self, user_hash):
-        self.username = user_hash["username"]
-        self.bank = user_hash["bank"]
-
-    def print_bank(self):
-        print(f"Ваш банк -- {self.bank}")
-
-    def update_user_bank(self, bet):
-        return self.bank + bet
