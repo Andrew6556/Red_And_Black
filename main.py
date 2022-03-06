@@ -64,16 +64,19 @@ while user.bank != 0:
     console.checking_winning()
 
     user.bank += prize
-    user_inteface.print_bank()
+    user_inteface.print_bank()\
 
-    choice_end_programm = int(input('Для выхода из программы напишите "3"'))
+    game.adding_data_about_the_past_game(username, user_bank, user_color_choice, user.bank)
+
+    choice_end_programm = input('Для выхода из программы напишите "3"\n')
 
     if choice_end_programm == 3:
         print('Вы успешно вышли из программы')
+        break
     else:
         print('Хорошо\nУдачной игры')
 
-
+    
 
 
 

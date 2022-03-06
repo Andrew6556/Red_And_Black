@@ -79,18 +79,45 @@ class RedBlack:
             return random.sample(self.black_numbers, 1)[0]
         return 0
 
-    def adding_data_about_the_past_game(self,user_name, user_bank, color ):
+    def result_game_past(func):
+        def wrapper(self, name, start_bank, color, end_bank, *args, **kwargs):
+            if end_bank > start_bank:
+                end_bank= 'win'
+            else:
+                end_bank= 'lose'
+
+            func(self, name, start_bank, color, end_bank, *args, **kwargs)
+        return wrapper
+
+    def color_game(func):
+        def wrapper(self, name, user_bank, color, *args, **kwargs):
+            print(color)
+            if color == 0:
+                color='green'
+            elif color == 1:
+                color='red'
+            elif color == 2:
+                color='black'
+            func(self, name, user_bank, color, *args, **kwargs)
+        return wrapper
+
+    @result_game_past
+    @color_game
+    #статистика прошедшей игры.что записывать?!user,bet,сolor,result?!
+    def adding_data_about_the_past_game(self, user_name,
+                                        start_bank, color, end_bank):
+
         if os.stat(f'data/game_statistics.json',).st_size:
             data = read_json_file('game_statistics.json')
         else:
             data = []
 
         data.append({
-            "username":self.username,
-            "user_bank":1000,
+            "username":user_name,
+            "user_bank":start_bank,
             "bet":self.bet,
             "color":color,
-            "result":1,
+            "result":end_bank,
         })
 
         write_json_file('game_statistics.json', data)
