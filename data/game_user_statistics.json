@@ -1,0 +1,10 @@
+[
+    {
+        "username": "1",
+        "initial bank": 1,
+        "bet": "green",
+        "color": 1,
+        "end bank": 0,
+        "result": "lose"
+    }
+]
