@@ -1,10 +1,10 @@
-from math import radians
 import random
 import time
 import os
-from write_and_read import *
+from math import radians
+from write_and_read import*
 from exceptions import NotCorrectColorIndex
-
+from func_decorators import*
 
 class RedBlack:
     #класс Game - отвечает за всю логику программы
@@ -78,47 +78,27 @@ class RedBlack:
         elif user_color_index == 2:
             return random.sample(self.black_numbers, 1)[0]
         return 0
-
-    def result_game_past(func):
-        def wrapper(self, name, start_bank, color, end_bank, *args, **kwargs):
-            if end_bank > start_bank:
-                end_bank= 'win'
-            else:
-                end_bank= 'lose'
-
-            func(self, name, start_bank, color, end_bank, *args, **kwargs)
-        return wrapper
-
-    def color_game(func):
-        def wrapper(self, name, user_bank, color, *args, **kwargs):
-            print(color)
-            if color == 0:
-                color='green'
-            elif color == 1:
-                color='red'
-            elif color == 2:
-                color='black'
-            func(self, name, user_bank, color, *args, **kwargs)
-        return wrapper
-
+    
     @result_game_past
     @color_game
-    #статистика прошедшей игры.что записывать?!user,bet,сolor,result?!
     def adding_data_about_the_past_game(self, user_name,
-                                        start_bank, color, end_bank):
+                                        start_bank, color,
+                                        end_bank, result):
 
-        if os.stat(f'data/game_statistics.json',).st_size:
+        if os.stat(f'data/game_statistics.json').st_size:
             data = read_json_file('game_statistics.json')
         else:
             data = []
+                # game_data["bet"].append(self.bet)
 
         data.append({
-            "username":user_name,
-            "user_bank":start_bank,
-            "bet":self.bet,
-            "color":color,
-            "result":end_bank,
-        })
+                    "username":user_name,
+                    "initial bank":start_bank,
+                    "bet":self.bet,
+                    "color":color,
+                    "end bank":end_bank,
+                    "result": result
+                })   
 
         write_json_file('game_statistics.json', data)
 class GameInteface:

@@ -66,8 +66,8 @@ while user.bank != 0:
     user.bank += prize
     user_inteface.print_bank()\
 
-    game.adding_data_about_the_past_game(username, user_bank, user_color_choice, user.bank)
-
+    # game.adding_data_about_the_past_game(username, user_bank, user_color_choice, user.bank)
+    user.adding_user_data(user_bank, user_color_choice, user.bank)
     choice_end_programm = input('Для выхода из программы напишите "3"\n')
 
     if choice_end_programm == 3:
