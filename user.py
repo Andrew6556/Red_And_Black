@@ -58,42 +58,15 @@ class User:
         else:
             data = []
 
-        # for users_data in read_json_file('game_user_statistics.json'):
-        #     if users_data["username"] == self.username:
-        #         users_data["initial bank"].append(start_bank)
-        #         users_data["bet"].append(bet)
-        #         users_data["color"].append(color)
-        #         users_data["end bank"].append(self.bank)
-        #         users_data["result"].append(result)
-                # data.append({
-                #     "username":self.username,
-                #     "initial bank":start_bank,
-                #     "bet":bet,
-                #     "color":color,
-                #     "end bank":self.bank,
-                #     "result": result
-                # })   
-            # else:
-            #     data.append({
-            #         "username":self.username,
-            #         "password":self.password,
-            #         "initial bank":[start_bank],
-            #         "bet":[bet],
-            #         "color":[color],
-            #         "end bank":[self.bank],
-            #         "result":[result]
-            #     })   
-        data.append({
-                    "username":self.username,
-                    "password":self.password,
-                    "initial bank":[start_bank],
-                    "bet":[bet],
-                    "color":[color],
-                    "end bank":[self.bank],
-                    "result":[result]
-                })
+        for users_data in data:
+            if users_data["username"] == self.username:
+                users_data["initial bank"].append(start_bank)
+                users_data["bet"].append(bet)
+                users_data["color"].append(color)
+                users_data["end bank"].append(self.bank)
+                users_data["result"].append(result)
 
-        write_json_file('game_user_statistics.json', data)
+                write_json_file('game_user_statistics.json', data)
 
     def user_registration(self):
         """Регистрация пользователя"""

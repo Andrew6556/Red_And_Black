@@ -8,40 +8,26 @@
         "result": "lose"
     },
     {
-        "username": "ivan",
+        "username": "1",
         "password": 1233,
         "initial bank": [
-            500
+            1,
+            111
         ],
         "bet": [
-            200
+            1,
+            1
         ],
         "color": [
-            0
-        ],
-        "end bank": [
-            300
-        ],
-        "result": [
-            "lose"
-        ]
-    },
-    {
-        "username": "an",
-        "password": 1233,
-        "initial bank": [
-            500
-        ],
-        "bet": [
-            150
-        ],
-        "color": [
+            "red",
             "red"
         ],
         "end bank": [
-            350
+            3,
+            110
         ],
         "result": [
+            "win",
             "lose"
         ]
     }
