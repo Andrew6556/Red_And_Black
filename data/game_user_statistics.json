@@ -1,10 +1,48 @@
 [
     {
-        "username": "1",
-        "initial bank": 1,
-        "bet": "green",
+        "username": "ANDREY",
+        "initial bank": 999,
+        "bet": 699,
         "color": 1,
-        "end bank": 0,
+        "end bank": 699,
         "result": "lose"
+    },
+    {
+        "username": "ivan",
+        "password": 1233,
+        "initial bank": [
+            500
+        ],
+        "bet": [
+            200
+        ],
+        "color": [
+            0
+        ],
+        "end bank": [
+            300
+        ],
+        "result": [
+            "lose"
+        ]
+    },
+    {
+        "username": "an",
+        "password": 1233,
+        "initial bank": [
+            500
+        ],
+        "bet": [
+            150
+        ],
+        "color": [
+            "red"
+        ],
+        "end bank": [
+            350
+        ],
+        "result": [
+            "lose"
+        ]
     }
 ]

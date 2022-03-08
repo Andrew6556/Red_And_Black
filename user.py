@@ -20,8 +20,9 @@ class User:
 
     def color_game(func):
         """заменяем индекс выбранного цвета на сам цвет"""
-        def wrapper(self, name, user_bank,
-                        color, *args, **kwargs):
+        def wrapper(self, start_bank, color, bet,
+                     *args, **kwargs):
+            
             if color == 0:
                 color='green'
             elif color == 1:
@@ -29,24 +30,28 @@ class User:
 
             elif color == 2:
                 color='black'
-            func(self, name, user_bank, color, *args, **kwargs)
+            func(self, start_bank, color, bet,
+                *args, **kwargs)
         return wrapper
 
     def result_game_past(func):
         """Конечный результат игры для записи в Json"""
-        def wrapper(self, start_bank,
-                    color, end_bank, *args, **kwargs):
-            if end_bank > start_bank:
+        def wrapper(self,start_bank, color, bet,
+                     *args, **kwargs):
+
+            if self.bank > start_bank:
                 result='win'
             else:
                 result='lose'
-            func(self, start_bank, color, end_bank, result, *args, **kwargs)
+
+            func(self, start_bank, color,bet, result,*args, **kwargs)
         return wrapper
 
     @result_game_past
     @color_game
     def adding_user_data(self, start_bank, color,
                         bet, result):
+        
         """Сохранения данных пользователя"""
         if os.stat('data/game_user_statistics.json',).st_size:
             data = read_json_file('game_user_statistics.json')
@@ -54,26 +59,39 @@ class User:
             data = []
 
         # for users_data in read_json_file('game_user_statistics.json'):
-        #     if users_data["username"] == self.username and \
-        #         users_data["password"] == self.password:
-        #         print('a')
-        #     else:
-        #         data.append({
-        #             "username":self.username,
-        #             "initial bank":start_bank,
-        #             "bet":self.bet,
-        #             "color":color,
-        #             "end bank":end_bank,
-        #             "result": result
-        #         })
+        #     if users_data["username"] == self.username:
+        #         users_data["initial bank"].append(start_bank)
+        #         users_data["bet"].append(bet)
+        #         users_data["color"].append(color)
+        #         users_data["end bank"].append(self.bank)
+        #         users_data["result"].append(result)
+                # data.append({
+                #     "username":self.username,
+                #     "initial bank":start_bank,
+                #     "bet":bet,
+                #     "color":color,
+                #     "end bank":self.bank,
+                #     "result": result
+                # })   
+            # else:
+            #     data.append({
+            #         "username":self.username,
+            #         "password":self.password,
+            #         "initial bank":[start_bank],
+            #         "bet":[bet],
+            #         "color":[color],
+            #         "end bank":[self.bank],
+            #         "result":[result]
+            #     })   
         data.append({
                     "username":self.username,
-                    "initial bank":start_bank,
-                    "bet":bet,
-                    "color":color,
-                    "end bank":self.bank,
-                    "result": result
-                })   
+                    "password":self.password,
+                    "initial bank":[start_bank],
+                    "bet":[bet],
+                    "color":[color],
+                    "end bank":[self.bank],
+                    "result":[result]
+                })
 
         write_json_file('game_user_statistics.json', data)
 

@@ -4,7 +4,6 @@ import os
 from math import radians
 from write_and_read import*
 from exceptions import NotCorrectColorIndex
-from func_decorators import*
 
 class RedBlack:
     #класс Game - отвечает за всю логику программы
@@ -78,7 +77,40 @@ class RedBlack:
         elif user_color_index == 2:
             return random.sample(self.black_numbers, 1)[0]
         return 0
-    
+
+    def color_game(func):
+        """заменяем индекс выбранного цвета на сам цвет"""
+        def wrapper(self, name, user_bank,
+                        color, *args, **kwargs):
+            if color == 0:
+                color='green'
+            elif color == 1:
+                color='red'
+
+            elif color == 2:
+                color='black'
+            func(self, name, user_bank, color, *args, **kwargs)
+        return wrapper
+
+    def result_game_past(func):
+        """Конечный результат игры для записи в Json"""
+        def wrapper(self, name, start_bank,
+                    color, end_bank, *args, **kwargs):
+            
+            if end_bank > start_bank:
+                result='win'
+            else:
+                result='lose'
+            print(f"""
+            name {name}
+            start_bank{start_bank}
+            color {color}
+            end bank {end_bank}
+            result{result}
+            """)
+            func(self, name, start_bank, color, end_bank, result, *args, **kwargs)
+        return wrapper
+
     @result_game_past
     @color_game
     def adding_data_about_the_past_game(self, user_name,
@@ -123,7 +155,7 @@ class GameInteface:
 
         return wrapper
 
-    @drop_effect
+    # @drop_effect
     def game_result_information(self):
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")

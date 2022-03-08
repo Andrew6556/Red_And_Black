@@ -1,0 +1,18 @@
+[
+    {
+        "username": "111",
+        "initial bank": 111,
+        "bet": 111,
+        "color": "red",
+        "end bank": 0,
+        "result": "lose"
+    },
+    {
+        "username": "ANDREY",
+        "initial bank": 999,
+        "bet": 300,
+        "color": "red",
+        "end bank": 699,
+        "result": "lose"
+    }
+]

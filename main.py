@@ -64,10 +64,10 @@ while user.bank != 0:
     console.checking_winning()
 
     user.bank += prize
-    user_inteface.print_bank()\
-
+    user_inteface.print_bank()
+    # ты забыл переменную bet
     # game.adding_data_about_the_past_game(username, user_bank, user_color_choice, user.bank)
-    user.adding_user_data(user_bank, user_color_choice, user.bank)
+    user.adding_user_data(user_bank, user_color_choice, user_bet)
     choice_end_programm = input('Для выхода из программы напишите "3"\n')
 
     if choice_end_programm == 3:
