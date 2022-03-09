@@ -19,7 +19,7 @@ class User:
         self.bank = user_hash["bank"]
 
     def color_game(func):
-        """заменяем индекс выбранного цвета на сам цвет"""
+        """заменяем индекс выбранного цвета, на сам цвет"""
         def wrapper(self, start_bank, color, bet,
                      *args, **kwargs):
             
@@ -59,14 +59,29 @@ class User:
             data = []
 
         for users_data in data:
-            if users_data["username"] == self.username:
+            # если наш пользователь есть в базе то в носим новые данные к ним
+            if users_data["username"] == self.username and \
+                users_data["password"] == self.password:
                 users_data["initial bank"].append(start_bank)
                 users_data["bet"].append(bet)
                 users_data["color"].append(color)
                 users_data["end bank"].append(self.bank)
                 users_data["result"].append(result)
+                break
+            
+        else:
+            # если нет ,то добавляем usera в базу данных
+            data.append({
+                "username":self.username,
+                "password":self.password,
+                "initial bank":[start_bank],
+                "bet":[bet],
+                "color":[color],
+                "end bank":[self.bank],
+                "result": [result]
+            }) 
 
-                write_json_file('game_user_statistics.json', data)
+        write_json_file('game_user_statistics.json', data)
 
     def user_registration(self):
         """Регистрация пользователя"""
