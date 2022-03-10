@@ -1,4 +1,6 @@
 import os
+import re
+from tkinter.tix import Tree
 from write_and_read import*
 
 
@@ -17,6 +19,44 @@ class User:
         self.username = user_hash["username"]
         self.password = user_hash["password"]
         self.bank = user_hash["bank"]
+
+    def checking_for_correct_login(fucn):
+        """Проверяем логин на корректность!
+            без цифр, и должен начинаться с @
+        """
+        def wrapper(self):
+            while True:
+                if [i for i in self.username if i in ['1','2', '3', '4', '5', '6', '7']]:
+                    print('В логине не должно быть цифр')
+                elif not self.username.startswith('@'):
+                    print('Ваш никнейм должен начинаться "@"')
+                else:
+                    break
+                
+                correct_nickname = input('Введите корректный ник\n')
+                self.username = correct_nickname
+                
+            return fucn(self)
+        return wrapper
+
+    @checking_for_correct_login
+    def user_registration(self):
+        """Регистрация пользователя"""
+
+        if os.stat(f'data/registered_users.json',).st_size:
+            data = read_json_file('registered_users.json')
+        else:
+            data = []
+
+        data.append({
+            "username":self.username,
+            "password":self.password
+        })
+
+        write_json_file('registered_users.json', data)
+
+    def update_user_bank(self, bet):
+        return self.bank + bet
 
     def color_game(func):
         """заменяем индекс выбранного цвета, на сам цвет"""
@@ -44,7 +84,8 @@ class User:
             else:
                 result='lose'
 
-            func(self, start_bank, color,bet, result,*args, **kwargs)
+            func(self, start_bank, color, bet,
+                result,*args, **kwargs)
         return wrapper
 
     @result_game_past
@@ -83,23 +124,7 @@ class User:
 
         write_json_file('game_user_statistics.json', data)
 
-    def user_registration(self):
-        """Регистрация пользователя"""
-
-        if os.stat(f'data/registered_users.json',).st_size:
-            data = read_json_file('registered_users.json')
-        else:
-            data = []
-
-        data.append({
-            "username":self.username,
-            "password":self.password
-        })
-
-        write_json_file('registered_users.json', data)
-
-    def update_user_bank(self, bet):
-        return self.bank + bet
+    
 
 class UserInterface:
 
@@ -109,3 +134,28 @@ class UserInterface:
     def print_bank(self):
         """Вывод текущего состояния банка"""
         print(f"Ваш банк -- {self.user.bank}")
+
+    # def registered_int(self, password):
+    #     if self.user.user_registration(password):
+    #         print('Регистрация прошла успешно')
+
+    # def print_authorization(self, name, password):
+    #     """Вывод результатов авторизации"""
+
+    #     if self.user.user_authorization(name, password) == True:
+    #         print('Авторизация прошла успешна')
+    #         return True
+    #     else:
+    #         print('Ошибка вводе данных')
+
+    # def int_check_for_registered_user(self, user):
+    #     """Вывод всех принтов при регистрации"""
+
+    #     if self.user.check_for_registered_user(user) == True:
+    #         return True
+        
+    #     elif self.user.check_for_registered_user(user) == False:
+    #         print('Такой пользователь не зарегистрирован')
+        
+    #     elif self.user.check_for_registered_user(user) == 'error':
+    #         print('ошибка вводе')

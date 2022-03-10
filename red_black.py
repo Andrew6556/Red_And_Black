@@ -108,20 +108,19 @@ class RedBlack:
             end bank {end_bank}
             result{result}
             """)
-            func(self, name, start_bank, color, end_bank, result, *args, **kwargs)
+            func(self, name, start_bank, color,
+                end_bank, result, *args, **kwargs)
         return wrapper
 
     @result_game_past
     @color_game
-    def adding_data_about_the_past_game(self, user_name,
-                                        start_bank, color,
-                                        end_bank, result):
+    def adding_data_about_the_past_game(self, user_name, start_bank,
+                                        color,end_bank, result):
 
         if os.stat(f'data/game_statistics.json').st_size:
             data = read_json_file('game_statistics.json')
         else:
             data = []
-                # game_data["bet"].append(self.bet)
 
         data.append({
                     "username":user_name,
