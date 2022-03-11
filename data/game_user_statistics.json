@@ -1,0 +1,22 @@
+[
+    {
+        "username": "andrey",
+        "password": 1233,
+        "history start bank": [
+            1111
+        ],
+        "bet": [
+            111
+        ],
+        "color": [
+            "green"
+        ],
+        "history end bank": [
+            1000
+        ],
+        "result": [
+            "lose"
+        ],
+        "current bank": 1000
+    }
+]

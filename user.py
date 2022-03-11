@@ -1,6 +1,5 @@
 import os
-import re
-from tkinter.tix import Tree
+import inspect
 from write_and_read import*
 
 
@@ -20,13 +19,33 @@ class User:
         self.password = user_hash["password"]
         self.bank = user_hash["bank"]
 
+    # def a(self):
+    #     for i in read_json_file('data/game_user_statistics.json'):
+    #         i['']
+
+
+    def checking_for_password_complexity(func):
+        """Проверяем на сложность пароль"""
+        def wrapper(self):
+            while len(str(self.password)) != 8:
+                if len(str(self.password)) != 8:
+                    print(inspect.cleandoc("""
+                    Ваш пароль слишком легкий!
+                    Ваш пароль должен содержать минимум 8 символов"""))
+
+                upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
+                self.password = upgrade_password
+
+            return func(self)
+        return wrapper
+
     def checking_for_correct_login(fucn):
         """Проверяем логин на корректность!
             без цифр, и должен начинаться с @
         """
         def wrapper(self):
             while True:
-                if [i for i in self.username if i in ['1','2', '3', '4', '5', '6', '7']]:
+                if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
                     print('В логине не должно быть цифр')
                 elif not self.username.startswith('@'):
                     print('Ваш никнейм должен начинаться "@"')
@@ -36,9 +55,10 @@ class User:
                 correct_nickname = input('Введите корректный ник\n')
                 self.username = correct_nickname
                 
-            return fucn(self)
+            # return fucn(self)
         return wrapper
 
+    @checking_for_password_complexity
     @checking_for_correct_login
     def user_registration(self):
         """Регистрация пользователя"""
@@ -103,11 +123,13 @@ class User:
             # если наш пользователь есть в базе то в носим новые данные к ним
             if users_data["username"] == self.username and \
                 users_data["password"] == self.password:
-                users_data["initial bank"].append(start_bank)
+
+                users_data["history start bank"].append(self.bank)
                 users_data["bet"].append(bet)
                 users_data["color"].append(color)
-                users_data["end bank"].append(self.bank)
+                users_data["history end bank"].append(self.bank)
                 users_data["result"].append(result)
+                users_data["current bank"] = self.bank
                 break
             
         else:
@@ -115,11 +137,12 @@ class User:
             data.append({
                 "username":self.username,
                 "password":self.password,
-                "initial bank":[start_bank],
+                "history start bank":[start_bank],
                 "bet":[bet],
                 "color":[color],
-                "end bank":[self.bank],
-                "result": [result]
+                "history end bank":[self.bank],
+                "result":[result],
+                "current bank":self.bank,
             }) 
 
         write_json_file('game_user_statistics.json', data)

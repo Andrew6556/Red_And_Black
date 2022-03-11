@@ -20,6 +20,7 @@ while True:
         "bank":user_bank_game 
         })
         user.user_registration()
+        
     elif user_choice == 2:
         user_name = input('Введите ваше имя\n')
         user_password = int(input('Введите пароль\n'))
