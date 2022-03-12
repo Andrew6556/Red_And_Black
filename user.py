@@ -2,33 +2,33 @@ import os
 import inspect
 from write_and_read import*
 
-
 class User:
-    
+
     @staticmethod
     def user_authorization(name, password):
+        "Авторизация пользователя"
         for users in read_json_file('registered_users.json'):
-            if users["name"] == name and users["password"] == password:
+            if users["username"] == name and users["password"] == password:
                 return True
             
             else:
                 continue
 
-    def __init__(self, user_hash):
-        self.username = user_hash["username"]
-        self.password = user_hash["password"]
-        self.bank = user_hash["bank"]
+    def __init__(self, name , password, bank=''):
+        self.username = name
+        self.password = password
+        self.bank = bank
 
-    # def a(self):
-    #     for i in read_json_file('data/game_user_statistics.json'):
-    #         i['']
-
+    def _finding_the_current_bank(self, name, password):
+        for users in read_json_file('game_user_statistics.json'):
+            if users['username'] == name and users['password'] == password:
+                self.bank = users["current bank"]
 
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
         def wrapper(self):
-            while len(str(self.password)) != 8:
-                if len(str(self.password)) != 8:
+            while len(str(self.password)) < 8:
+                if len(str(self.password)) < 8:
                     print(inspect.cleandoc("""
                     Ваш пароль слишком легкий!
                     Ваш пароль должен содержать минимум 8 символов"""))
@@ -46,16 +46,22 @@ class User:
         def wrapper(self):
             while True:
                 if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
-                    print('В логине не должно быть цифр')
+                    print(inspect.cleandoc("""
+                            Вашем логине содержаться цифры - это не допустимо!
+                            Напоминаю, ваш ник должен начинаться с "@" """
+                            ))
                 elif not self.username.startswith('@'):
-                    print('Ваш никнейм должен начинаться "@"')
+                    print(inspect.cleandoc("""
+                            Вашем логин должен начинаться с "@" !
+                            Напоминаю, в логине не может быть цифр"""
+                            ))
                 else:
                     break
                 
                 correct_nickname = input('Введите корректный ник\n')
                 self.username = correct_nickname
                 
-            # return fucn(self)
+            return fucn(self)
         return wrapper
 
     @checking_for_password_complexity
@@ -147,8 +153,6 @@ class User:
 
         write_json_file('game_user_statistics.json', data)
 
-    
-
 class UserInterface:
 
     def __init__(self, user):
@@ -156,20 +160,23 @@ class UserInterface:
         
     def print_bank(self):
         """Вывод текущего состояния банка"""
-        print(f"Ваш банк -- {self.user.bank}")
+        print(f"Ваш банк текущий -- {self.user.bank}")
 
-    # def registered_int(self, password):
-    #     if self.user.user_registration(password):
-    #         print('Регистрация прошла успешно')
+    def registered_int(self):
+        if self.user.user_registration():
+            print('Регистрация прошла успешно')
 
-    # def print_authorization(self, name, password):
-    #     """Вывод результатов авторизации"""
+    def print_authorization(self, name, password):
+        """Вывод результатов авторизации"""
 
-    #     if self.user.user_authorization(name, password) == True:
-    #         print('Авторизация прошла успешна')
-    #         return True
-    #     else:
-    #         print('Ошибка вводе данных')
+        if self.user.user_authorization(name, password) == True:
+            self.user._finding_the_current_bank(name, password)
+            print('Авторизация прошла успешна')
+            return True
+            
+        else:
+            print('Ошибка вводе данных')
+            
 
     # def int_check_for_registered_user(self, user):
     #     """Вывод всех принтов при регистрации"""

@@ -1,5 +1,5 @@
-from red_black import *
-from user import *
+from red_black import*
+from user import*
 import inspect
 
 #СДЕЛАТЬ РЕГИСТРАЦИЮ И АВТОРИЗАЦИЮ
@@ -9,28 +9,30 @@ while True:
     1.Зарегистрироваться
     2.Войти 
     """)))
-
+    
     if user_choice == 1:
         user_name = input('Введите ваше имя\n')
         user_password = int(input('Введите пароль\n'))
         user_bank_game = int(input("Ваш банк: "))
-        user = User({
-        "username":user_name,
-        "password":user_password,
-        "bank":user_bank_game 
-        })
-        user.user_registration()
+        user = User(
+        user_name,
+        user_password,
+        user_bank_game 
+        )
+        user_int = UserInterface(user)
+        user_int.registered_int()#проблема с выводом интерфейса ,а именно что регистрация прошла усешно
         
     elif user_choice == 2:
-        user_name = input('Введите ваше имя\n')
-        user_password = int(input('Введите пароль\n'))
-        user_bank_game = int(input("Ваш банк: "))
-        user = User({
-        "username":user_name,
-        "password":user_password,
-        "bank":user_bank_game 
-        })
-        break
+        while True:
+            user_name = input('Введите ваше имя\n')
+            user_password = int(input('Введите пароль\n'))
+            user = User(
+            user_name,
+            user_password,
+            )
+            user_int = UserInterface(user)
+            if user_int.print_authorization(user_name, user_password) == True:
+                break
 
 
 # print("Добро пожаловать в игру")
