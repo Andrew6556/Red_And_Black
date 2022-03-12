@@ -2,6 +2,7 @@ from red_black import*
 from user import*
 import inspect
 
+print('good')
 #СДЕЛАТЬ РЕГИСТРАЦИЮ И АВТОРИЗАЦИЮ
 while True:
     user_choice = int(input(inspect.cleandoc("""

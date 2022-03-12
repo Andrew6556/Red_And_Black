@@ -14,7 +14,7 @@ class User:
             else:
                 continue
 
-    def __init__(self, name , password, bank=''):
+    def __init__(self, name, password, bank=''):
         self.username = name
         self.password = password
         self.bank = bank
