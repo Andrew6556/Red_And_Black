@@ -23,6 +23,12 @@ class User:
         for users in read_json_file('game_user_statistics.json'):
             if users['username'] == name and users['password'] == password:
                 self.bank = users["current bank"]
+                break
+        else:
+            for users in read_json_file('registered_users.json'):
+                if users['username'] == name and users['password'] == password:
+                    self.bank = users["bank"]
+                    break
 
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
@@ -30,7 +36,6 @@ class User:
             while len(str(self.password)) < 8:
                 if len(str(self.password)) < 8:
                     print(inspect.cleandoc("""
-                    Ваш пароль слишком легкий!
                     Ваш пароль должен содержать минимум 8 символов"""))
 
                 upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
@@ -76,7 +81,8 @@ class User:
 
         data.append({
             "username":self.username,
-            "password":self.password
+            "password":self.password,
+            "bank":self.bank
         })
 
         write_json_file('registered_users.json', data)
@@ -153,6 +159,9 @@ class User:
 
         write_json_file('game_user_statistics.json', data)
 
+    def update_bank(self, money):
+        return self.bank + money
+
 class UserInterface:
 
     def __init__(self, user):
@@ -160,32 +169,18 @@ class UserInterface:
         
     def print_bank(self):
         """Вывод текущего состояния банка"""
-        print(f"Ваш банк текущий -- {self.user.bank}")
-
-    def registered_int(self):
-        if self.user.user_registration():
-            print('Регистрация прошла успешно')
+        print(f"Ваш текущий банк -- {self.user.bank}")
 
     def print_authorization(self, name, password):
         """Вывод результатов авторизации"""
 
         if self.user.user_authorization(name, password) == True:
             self.user._finding_the_current_bank(name, password)
-            print('Авторизация прошла успешна')
+            print('Авторизация прошел успешна')
             return True
-            
         else:
             print('Ошибка вводе данных')
             
-
-    # def int_check_for_registered_user(self, user):
-    #     """Вывод всех принтов при регистрации"""
-
-    #     if self.user.check_for_registered_user(user) == True:
-    #         return True
-        
-    #     elif self.user.check_for_registered_user(user) == False:
-    #         print('Такой пользователь не зарегистрирован')
-        
-    #     elif self.user.check_for_registered_user(user) == 'error':
-    #         print('ошибка вводе')
+    def add_money_in_bank(self, money):
+        self.user.update_bank(money)
+        print('Сумма была добавлена')

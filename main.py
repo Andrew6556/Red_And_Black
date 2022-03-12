@@ -2,40 +2,59 @@ from red_black import*
 from user import*
 import inspect
 
-#СДЕЛАТЬ РЕГИСТРАЦИЮ И АВТОРИЗАЦИЮ
+
+print("Добро пожаловать в игру")
+loop = True
 while True:
-    user_choice = int(input(inspect.cleandoc("""
-    Что вы хотите сделать
-    1.Зарегистрироваться
-    2.Войти 
-    """)))
-    
-    if user_choice == 1:
-        user_name = input('Введите ваше имя\n')
-        user_password = int(input('Введите пароль\n'))
-        user_bank_game = int(input("Ваш банк: "))
-        user = User(
-        user_name,
-        user_password,
-        user_bank_game 
-        )
-        user_int = UserInterface(user)
-        user_int.registered_int()#проблема с выводом интерфейса ,а именно что регистрация прошла усешно
+    while loop:
+        user_choice = int(input(inspect.cleandoc("""
+        Что вы хотите сделать
+        1.Зарегистрироваться
+        2.Войти 
+        """)))
         
-    elif user_choice == 2:
-        while True:
+        if user_choice == 1:
             user_name = input('Введите ваше имя\n')
             user_password = int(input('Введите пароль\n'))
+            user_bank_game = int(input("Ваш банк: "))
             user = User(
             user_name,
             user_password,
+            user_bank_game 
             )
-            user_int = UserInterface(user)
-            if user_int.print_authorization(user_name, user_password) == True:
-                break
+            user.user_registration()
+            print('Регистрация прошла успешно')
+            
+        elif user_choice == 2:
+            while loop:
+                user_name = input('Введите ваше имя\n')
+                user_password = int(input('Введите пароль\n'))
 
+                user = User(user_name, user_password)
+                user_int = UserInterface(user)
 
-# print("Добро пожаловать в игру")
+                if user_int.print_authorization(user_name, user_password) == True:
+                    # loop = False
+                    user_int.print_bank()
+                    print(inspect.cleandoc("""
+                            Вы хотите добавить денег в банк?
+                            1.Да
+                            2.Нет
+                            """))
+
+                    choice_to_add_money_to_the_bank = int(input('Напишите цифрой, что вы выбрали: '))
+    
+                    if choice_to_add_money_to_the_bank == 1:
+                        addition_amount = int(input('Введите сумму которую хотите добавить\n'))
+                        user_int.add_money_in_bank(addition_amount)
+                        user_int.print_bank()
+                        print('Хорошей игры :)')
+                        loop = False
+
+                    elif choice_to_add_money_to_the_bank == 2:
+                        print('Хорошей игры :)')
+                        loop = False
+    break
 
 # username = input("Введите ваш ник: ")
 # user_bank = int(input("Ваш банк: "))
