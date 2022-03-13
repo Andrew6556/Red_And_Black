@@ -159,8 +159,19 @@ class User:
 
         write_json_file('game_user_statistics.json', data)
 
+    def bonus_on_adding(func):
+        """Бонус к сумме при 1000"""
+        def wrapper(self, money, *args, **kwargs):
+            if money == 1000:
+                money += 100
+                print(money)
+            
+            return func(self, money, *args, **kwargs)
+        return wrapper
+
+    @bonus_on_adding
     def update_bank(self, money):
-        return self.bank + money
+        self.bank += money
 
 class UserInterface:
 
@@ -182,5 +193,5 @@ class UserInterface:
             print('Ошибка вводе данных')
             
     def add_money_in_bank(self, money):
-        self.user.update_bank(money)
-        print('Сумма была добавлена')
+        if self.user.update_bank(money):
+            print('Сумма была добавлена')
