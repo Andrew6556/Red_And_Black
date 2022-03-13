@@ -1,10 +1,12 @@
 [
     {
-        "username": "@ivan",
-        "password": 12121212
+        "username": "@q",
+        "password": 11111111,
+        "bank": 100
     },
     {
-        "username": "@andrey",
-        "password": 12345678
+        "username": "@w",
+        "password": 111111111,
+        "bank": 50
     }
 ]

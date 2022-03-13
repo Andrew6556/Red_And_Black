@@ -101,13 +101,7 @@ class RedBlack:
                 result='win'
             else:
                 result='lose'
-            print(f"""
-            name {name}
-            start_bank{start_bank}
-            color {color}
-            end bank {end_bank}
-            result{result}
-            """)
+            
             func(self, name, start_bank, color,
                 end_bank, result, *args, **kwargs)
         return wrapper
