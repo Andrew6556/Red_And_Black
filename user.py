@@ -14,10 +14,10 @@ class User:
             else:
                 continue
 
-    def __init__(self, name , password, bank=''):
+    def __init__(self, name , password):
         self.username = name
         self.password = password
-        self.bank = bank
+        self.bank = 0
 
     def _finding_the_current_bank(self, name, password):
         for users in read_json_file('game_user_statistics.json'):

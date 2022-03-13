@@ -8,11 +8,11 @@
         "result": "lose"
     },
     {
-        "username": "ANDREY",
-        "initial bank": 999,
+        "username": "@andrey",
+        "initial bank": 1000,
         "bet": 300,
-        "color": "red",
-        "end bank": 699,
+        "color": "green",
+        "end bank": 700,
         "result": "lose"
     }
 ]
