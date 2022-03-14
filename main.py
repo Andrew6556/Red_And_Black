@@ -34,7 +34,7 @@ while True:
                 user_int = UserInterface(user)
                 # current_bank = user.bank
                 
-                if user_int.print_authorization(user_name, user_password) == True:
+                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == True:
                     user_int.print_bank()
                     current_bank = user.bank
                     print(inspect.cleandoc("""
@@ -90,16 +90,4 @@ while True:
         break
     else:
         print('Хорошо\nУдачной игры')
-
-
-
-    
-
-
-
-
-
-
-
-
 
