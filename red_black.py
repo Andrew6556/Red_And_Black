@@ -80,7 +80,7 @@ class RedBlack:
 
     def color_game(func):
         """заменяем индекс выбранного цвета на сам цвет"""
-        def wrapper(self, name, user_bank,
+        def wrapper(self, name, password, user_bank,
                         color, *args, **kwargs):
             if color == 0:
                 color='green'
@@ -89,27 +89,64 @@ class RedBlack:
 
             elif color == 2:
                 color='black'
-            func(self, name, user_bank, color, *args, **kwargs)
+            
+            func(self, name, password, user_bank, color, *args, **kwargs)
         return wrapper
 
     def result_game_past(func):
         """Конечный результат игры для записи в Json"""
-        def wrapper(self, name, start_bank,
+        def wrapper(self, name, password,  start_bank,
                     color, end_bank, *args, **kwargs):
             
             if end_bank > start_bank:
                 result='win'
             else:
                 result='lose'
-            
-            func(self, name, start_bank, color,
+                
+            func(self, name, password, start_bank, color,
                 end_bank, result, *args, **kwargs)
         return wrapper
 
     @result_game_past
     @color_game
-    def adding_data_about_the_past_game(self, user_name, start_bank,
-                                        color,end_bank, result):
+    def adding_user_data(self, username, password, start_bank,
+                        color, end_bank, result):
+        
+        """Сохранения данных пользователя"""
+        
+        data = read_json_file('game_user_statistics.json')
+        for users_data in data:
+            # если наш пользователь есть в базе то в носим новые данные к ним
+            if users_data["username"] == username and \
+                users_data["password"] == password:
+
+                users_data["history start bank"].append(start_bank)
+                users_data["bet"].append(self.bet)
+                users_data["color"].append(color)
+                users_data["history end bank"].append(end_bank)
+                users_data["result"].append(result)
+                users_data["current bank"] = end_bank
+                break
+            
+        else:
+            # если нет ,то добавляем usera в базу данных
+            data.append({
+                "username":username,
+                "password":password,
+                "history start bank":[start_bank],
+                "bet":[self.bet],
+                "color":[color],
+                "history end bank":[end_bank],
+                "result":[result],
+                "current bank":end_bank,
+            })
+
+        write_json_file('game_user_statistics.json', data)
+
+    @result_game_past
+    @color_game
+    def adding_data_about_the_past_game(self, user_name, password, start_bank,
+                                        color, end_bank, result):
 
         if os.stat(f'data/game_statistics.json').st_size:
             data = read_json_file('game_statistics.json')
@@ -148,7 +185,7 @@ class GameInteface:
 
         return wrapper
 
-    # @drop_effect
+    @drop_effect
     def game_result_information(self):
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")
