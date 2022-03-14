@@ -14,5 +14,53 @@
         "color": "green",
         "end bank": 700,
         "result": "lose"
+    },
+    {
+        "username": "@qwqw",
+        "initial bank": 100,
+        "bet": 100,
+        "color": 0,
+        "end bank": 1500,
+        "result": "win"
+    },
+    {
+        "username": "@andreygood",
+        "initial bank": 1000,
+        "bet": 300,
+        "color": "black",
+        "end bank": 1600,
+        "result": "win"
+    },
+    {
+        "username": "@andreygood",
+        "initial bank": 1000,
+        "bet": 300,
+        "color": "green",
+        "end bank": 700,
+        "result": "lose"
+    },
+    {
+        "username": "@andreygood",
+        "initial bank": 1000,
+        "bet": 300,
+        "color": "green",
+        "end bank": 700,
+        "result": "lose"
+    },
+    {
+        "username": "@andreygood",
+        "initial bank": 1000,
+        "bet": 300,
+        "color": "green",
+        "end bank": 700,
+        "result": "lose"
+    },
+    {
+        "username": "@andreygood",
+        "initial bank": 1000,
+        "bet": 300,
+        "color": "green",
+        "end bank": 700,
+        "result": "lose"
     }
 ]

@@ -62,10 +62,10 @@ while True:
         print('Это недопустимая ставка, введите число меньше 300')
         continue
 
-    # if user.bank - user_bet == -user_bank:
-    #     print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
-    #     continue
-
+    if user.bank - user_bet:
+        print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
+        continue
+    
     print("0. Зелёное\n1. Красное\n2. Чёрное")
 
     user_color_choice = int(input("Цвет (выберете цифрой): "))
@@ -81,9 +81,13 @@ while True:
     user.bank += prize
     user_int.print_bank()
 
-    game.adding_data_about_the_past_game(user_name, current_bank, user_color_choice, user.bank)
-    user.adding_user_data(current_bank, user_color_choice, user_bet)
+    game.adding_data_about_the_past_game(user_name, user.password, current_bank, user_color_choice, user.bank)
+    game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
     choice_end_programm = input('Для выхода из программы напишите "3"\n')
+
+    if user.bank == 0:
+        print('Игра окончена!\nУ вас недастаточно средств для продолжения')
+        break
 
     if choice_end_programm == 3:
         print('Вы успешно вышли из программы')
