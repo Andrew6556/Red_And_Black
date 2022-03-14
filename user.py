@@ -14,21 +14,21 @@ class User:
             else:
                 continue
 
-    def __init__(self, name , password):
+    def __init__(self, name , password, bank=0):
         self.username = name
         self.password = password
-        self.bank = 0
+        self.bank = bank
 
-    def _finding_the_current_bank(self, name, password):
-        for users in read_json_file('game_user_statistics.json'):
-            if users['username'] == name and users['password'] == password:
-                self.bank = users["current bank"]
-                break
-        else:
-            for users in read_json_file('registered_users.json'):
-                if users['username'] == name and users['password'] == password:
-                    self.bank = users["bank"]
-                    break
+    # def _finding_the_current_bank(self):
+    #     for users in read_json_file('game_user_statistics.json'):
+    #         if users['username'] == name and users['password'] == password:
+    #             self.bank = users["current bank"]
+    #             break
+    #     else:
+    #         for users in read_json_file('registered_users.json'):
+    #             if users['username'] == name and users['password'] == password:
+    #                 self.bank = users["bank"]
+    #                 break
 
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
@@ -90,35 +90,35 @@ class User:
     def update_user_bank(self, bet):
         return self.bank + bet
 
-    def color_game(func):
-        """заменяем индекс выбранного цвета, на сам цвет"""
-        def wrapper(self, start_bank, color, bet,
-                     *args, **kwargs):
+    # def color_game(func):
+    #     """заменяем индекс выбранного цвета, на сам цвет"""
+    #     def wrapper(self, start_bank, color, bet,
+    #                  *args, **kwargs):
             
-            if color == 0:
-                color='green'
-            elif color == 1:
-                color='red'
+    #         if color == 0:
+    #             color='green'
+    #         elif color == 1:
+    #             color='red'
 
-            elif color == 2:
-                color='black'
-            func(self, start_bank, color, bet,
-                *args, **kwargs)
-        return wrapper
+    #         elif color == 2:
+    #             color='black'
+    #         func(self, start_bank, color, bet,
+    #             *args, **kwargs)
+    #     return wrapper
 
-    def result_game_past(func):
-        """Конечный результат игры для записи в Json"""
-        def wrapper(self,start_bank, color, bet,
-                     *args, **kwargs):
+    # def result_game_past(func):
+    #     """Конечный результат игры для записи в Json"""
+    #     def wrapper(self,start_bank, color, bet,
+    #                  *args, **kwargs):
 
-            if self.bank > start_bank:
-                result='win'
-            else:
-                result='lose'
+    #         if self.bank > start_bank:
+    #             result='win'
+    #         else:
+    #             result='lose'
 
-            func(self, start_bank, color, bet,
-                result,*args, **kwargs)
-        return wrapper
+    #         func(self, start_bank, color, bet,
+    #             result,*args, **kwargs)
+    #     return wrapper
 
     @result_game_past
     @color_game
@@ -162,7 +162,7 @@ class User:
     def bonus_on_adding(func):
         """Бонус к сумме при 1000"""
         def wrapper(self, money, *args, **kwargs):
-            if money == 1000:
+            if money >= 1000:
                 money += 100
                 print(money)
             
@@ -182,15 +182,16 @@ class UserInterface:
         """Вывод текущего состояния банка"""
         print(f"Ваш текущий банк -- {self.user.bank}")
 
-    def print_authorization(self, name, password):
+    def print_authorization(self, func, func2):
         """Вывод результатов авторизации"""
 
-        if self.user.user_authorization(name, password) == True:
-            self.user._finding_the_current_bank(name, password)
+        if func == True:
             print('Авторизация прошел успешна')
+            self.user._finding_the_current_bank()
             return True
         else:
             print('Ошибка вводе данных')
+            return False
             
     def add_money_in_bank(self, money):
         if self.user.update_bank(money):
