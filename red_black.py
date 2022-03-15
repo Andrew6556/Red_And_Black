@@ -8,7 +8,7 @@ from exceptions import NotCorrectColorIndex
 class RedBlack:
     #класс Game - отвечает за всю логику программы
     
-    def __init__(self, user_color_index, bet):
+    def __init__(self, user_color_index, bet, user_number_bet=0):
         # список красный числе от 1 до 50
         self.red_numbers = [number for number in range(1, 51)]
         # список черных числе от 50 до 100
@@ -20,6 +20,7 @@ class RedBlack:
         #ставка пользователя
         self.bet = bet
         self.user_number = self.__from_color_index_to_number(user_color_index)
+        self.user_bet_number = user_number_bet
 
     def start_game(self):
         """
@@ -44,6 +45,13 @@ class RedBlack:
             return self.bet * 14
 
         return -self.bet
+
+    def get_prize_number_bet(self):
+        if self.game_number == self.user_number:
+            return self.bet * 20
+
+        return -self.bet
+
 
     def check_correct_index_color(function):
         """Обработка неправильного ввода"""
@@ -194,8 +202,21 @@ class GameInteface:
         else:
             print(f"Выпало зелёное -- {self.game.game_number}")
 
-    def checking_winning(self):
+    @drop_effect
+    def number_pick_game_result(self):
+        if self.game.game_number == self.game.user_bet_number or \
+            self.game.game_number != self.game.user_bet_number:
+            print(f"Выпало -- {self.game.game_number}")
+
+    def number_game_result(self):
         game_result = self.game.get_prize_color_bet()
+        if game_result < 0:
+            print("К сожанию, вы проиграли")
+        else:
+            print("Поздравялем с победой!")
+
+    def checking_winning(self):
+        game_result = self.get_prize_number_bet()
         if game_result < 0:
             print("К сожанию, вы проиграли")
         else:
