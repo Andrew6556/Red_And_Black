@@ -9,11 +9,8 @@ class User:
         "Авторизация пользователя"
         for users in read_json_file('registered_users.json'):
             if users["username"] == name and users["password"] == password:
-                return True
+                return User(name, password)
             
-            else:
-                continue
-
     def __init__(self, name , password, bank=0):
         self.username = name
         self.password = password
