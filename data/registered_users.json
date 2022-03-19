@@ -1,12 +1,10 @@
-[
-    {
-        "username": "@qwqw",
+{
+    "@qwqw": {
         "password": 12121233131,
         "bank": 100
     },
-    {
-        "username": "@andreygood",
+    "@andreygood": {
         "password": 8878787878787,
         "bank": 1000
     }
-]
+}
