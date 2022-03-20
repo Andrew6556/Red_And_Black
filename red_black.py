@@ -4,6 +4,7 @@ import os
 from math import radians
 from write_and_read import*
 from exceptions import NotCorrectColorIndex
+from path_file import*
 
 class RedBlack:
     #класс Game - отвечает за всю логику программы
@@ -122,7 +123,7 @@ class RedBlack:
         
         """Сохранения данных пользователя"""
         
-        data = read_json_file('game_user_statistics.json')
+        data = read_json_file(f'{USER_STATISTICS_GAME_PATH}')
         for users_data in data:
             # если наш пользователь есть в базе то в носим новые данные к ним
             if users_data["username"] == username and \
@@ -138,26 +139,27 @@ class RedBlack:
             
         else:
             # если нет ,то добавляем usera в базу данных
-            data.append({
-                "username":username,
-                "password":password,
-                "history start bank":[start_bank],
-                "bet":[self.bet],
-                "color":[color],
-                "history end bank":[end_bank],
-                "result":[result],
-                "current bank":end_bank,
-            })
+            data.update({
+                "username":username:{
+                    "password":password,
+                    "history start bank":[start_bank],
+                    "bet":[self.bet],
+                    "color":[color],
+                    "history end bank":[end_bank],
+                    "result":[result],
+                    "current bank":end_bank
+                    }
+                })
 
-        write_json_file('game_user_statistics.json', data)
+        write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
     @result_game_past
     @color_game
     def adding_data_about_the_past_game(self, user_name, password, start_bank,
                                         color, end_bank, result):
 
-        if os.stat(f'data/game_statistics.json').st_size:
-            data = read_json_file('game_statistics.json')
+        if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
+            data = read_json_file(f'{GAME_STATISTICS_PATH}')
         else:
             data = []
 
@@ -170,7 +172,7 @@ class RedBlack:
                     "result": result
                 })   
 
-        write_json_file('game_statistics.json', data)
+        write_json_file(f'{GAME_STATISTICS_PATH}', data)
 class GameInteface:
     
     def __init__(self, game):

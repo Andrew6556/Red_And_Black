@@ -2,12 +2,7 @@ import os
 import inspect
 from write_and_read import*
 from exceptions import*
-
-
-USERS_PATH = 'registered_users.json'
-USER_STATISTICS_GAME_PATH = 'game_user_statistics.json'
-GAME_STATISTICS_PATH = 'game_statistics.json'
-
+from path_file import*
 
 class User:
 
@@ -39,7 +34,7 @@ class User:
         """Проверяем на сложность пароль"""
         def wrapper(self):
             if len(str(self.password)) < 8:
-                raise Incorrect_Password_Entry
+                raise IncorrectPasswordEntry
             return func(self)
         return wrapper
 
@@ -48,23 +43,12 @@ class User:
             без цифр, и должен начинаться с @
         """
         def wrapper(self):
-            while True:
-                if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
-                    print(inspect.cleandoc("""
-                            Вашем логине содержаться цифры - это не допустимо!
-                            Напоминаю, ваш ник должен начинаться с "@" """
-                            ))
-                elif not self.username.startswith('@'):
-                    print(inspect.cleandoc("""
-                            Вашем логин должен начинаться с "@" !
-                            Напоминаю, в логине не может быть цифр"""
-                            ))
-                else:
-                    break
-                
-                correct_nickname = input('Введите корректный ник\n')
-                self.username = correct_nickname
-                
+            
+            if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
+                raise IncorrectLoginNumbers    
+            elif not self.username.startswith('@'):
+                raise LoginStartsWithNoCharacters
+
             return fucn(self)
         return wrapper
 
@@ -106,15 +90,19 @@ class UserInterface:
         self.user = user 
     
     def correct_password_processing(self):
-        # while self.user.password != 8:
         try:
             self.user.user_registration()
-        except Incorrect_Password_Entry:
-            print('Ваш пароль не должен содержать цифр')
+        except IncorrectPasswordEntry:
+            print('Ваш пароль должен содержать цифр 8')
+
+    def error_message_in_login(self):
+        try:
+            self.user.user_registration()
+        except IncorrectLoginNumbers:
+            print('Ваш логин не должен содержать цифр')
             return False
-                # upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
-                # self.user.password = upgrade_password
-                # self.user.checking_for_password_complexity()
+        except LoginStartsWithNoCharacters:
+            print('Ваш логин должен начинаться с "@"')
 
     def print_bank(self):
         """Вывод текущего состояния банка"""
