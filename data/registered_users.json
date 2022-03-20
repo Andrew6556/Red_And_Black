@@ -6,5 +6,9 @@
     "@andreygood": {
         "password": 8878787878787,
         "bank": 1000
+    },
+    "@name": {
+        "password": 123123123,
+        "bank": 0
     }
 }

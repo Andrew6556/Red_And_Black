@@ -2,6 +2,10 @@ from red_black import*
 from user import*
 import inspect
 
+user = User('@name', 123123123)
+console = UserInterface(user)
+if console.correct_password_processing() != False:
+    print('Вы зарегались писюн')
 
 # print("Добро пожаловать в игру")
 # loop = True

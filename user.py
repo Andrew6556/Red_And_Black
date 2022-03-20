@@ -1,11 +1,14 @@
 import os
 import inspect
 from write_and_read import*
+from exceptions import*
 
 
 USERS_PATH = 'registered_users.json'
 USER_STATISTICS_GAME_PATH = 'game_user_statistics.json'
 GAME_STATISTICS_PATH = 'game_statistics.json'
+
+
 class User:
 
     @staticmethod
@@ -31,18 +34,12 @@ class User:
                     if users['username'] == self.username and users['password'] == self.password:
                         self.bank = users["bank"]
                         break
-
+    
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
         def wrapper(self):
-            while len(str(self.password)) < 8:
-                if len(str(self.password)) < 8:
-                    print(inspect.cleandoc("""
-                    Ваш пароль должен содержать минимум 8 символов"""))
-
-                upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
-                self.password = upgrade_password
-
+            if len(str(self.password)) < 8:
+                raise Incorrect_Password_Entry
             return func(self)
         return wrapper
 
@@ -107,7 +104,18 @@ class UserInterface:
 
     def __init__(self, user):
         self.user = user 
-        
+    
+    def correct_password_processing(self):
+        # while self.user.password != 8:
+        try:
+            self.user.user_registration()
+        except Incorrect_Password_Entry:
+            print('Ваш пароль не должен содержать цифр')
+            return False
+                # upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
+                # self.user.password = upgrade_password
+                # self.user.checking_for_password_complexity()
+
     def print_bank(self):
         """Вывод текущего состояния банка"""
         print(f"Ваш текущий банк -- {self.user.bank}")
