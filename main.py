@@ -34,7 +34,7 @@ while True:
                 else:
                     break
             
-            user.bank += user_bank_game
+            user.bank += user_bank_game #сверить нужно ли это
             print('Регистрация прошла успешно')
             
         elif user_choice == 2:
@@ -46,7 +46,7 @@ while True:
                 user = User(user_name, user_password)
                 user_int = UserInterface(user)
                 
-                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == True:
+                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == None:
                     user_int.print_bank()
                     current_bank = user.bank
                     print(inspect.cleandoc("""
@@ -76,6 +76,7 @@ while True:
 
     if user.bank - user_bet:
         print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
+        print(user.bank)
         continue
     
     print("0. Зелёное\n1. Красное\n2. Чёрное")

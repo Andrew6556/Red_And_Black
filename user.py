@@ -1,5 +1,4 @@
 import os
-import inspect
 from write_and_read import*
 from exceptions import*
 from path_file import*
@@ -9,8 +8,8 @@ class User:
     @staticmethod
     def user_authorization(name, password):
         "Авторизация пользователя"
-        for users in read_json_file(USERS_PATH):
-            if users["username"] == name and users["password"] == password:
+        for users, data_us in read_json_file(USERS_PATH).items():
+            if users == name and password == data_us['password']:
                 return User(name, password)
             
     def __init__(self, name , password, bank=0):
@@ -19,15 +18,15 @@ class User:
         self.bank = bank
 
     def _finding_the_current_bank(self):
-        for users in read_json_file(USERS_PATH):
-            if users['username'] == self.username and users['password'] == self.password:
-                self.bank = users["current bank"]
-                break
+        for users, data_us in read_json_file(USERS_PATH).items():
+            if users == self.username and self.password == data_us['password']:
+                self.bank = data_us["bank"]
+                break 
         else:
             if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
-                for users in read_json_file(USERS_PATH):
+                for users, data_us in read_json_file(USERS_PATH).items():
                     if users['username'] == self.username and users['password'] == self.password:
-                        self.bank = users["bank"]
+                        self.bank = data_us["current bank"]
                         break
     
     def checking_for_password_complexity(func):
@@ -110,11 +109,8 @@ class UserInterface:
 
     def print_authorization(self, func):
         """Вывод результатов авторизации"""
-
-        if func == True:
+        if func != None:
             print('Авторизация прошел успешна')
             self.user._finding_the_current_bank()
-            return True
         else:
             print('Ошибка вводе данных')
-            return False
