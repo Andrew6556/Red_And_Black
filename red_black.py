@@ -158,17 +158,16 @@ class RedBlack:
         if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
             data = read_json_file(f'{GAME_STATISTICS_PATH}')
         else:
-            data = {}
+            data = []
 
-        data.update({
-                    user_name:{
+        data.append({
+                        "name":user_name,
                         "initial bank":start_bank,
                         "bet":self.bet,
                         "color":color,
                         "end bank":end_bank,
                         "result": result
-                    }
-                })   
+                    })  
 
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
 class GameInteface:

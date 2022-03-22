@@ -1,18 +1,14 @@
 {
-    "@qwqw": {
-        "password": 12345678,
-        "bank": 100
-    },
     "@andreygood": {
         "password": 8878787878787,
         "bank": 1000
     },
-    "@q": {
-        "password": 12345678,
-        "bank": 10
+    "@a": {
+        "password": 111111111111,
+        "bank": 1000
     },
-    "@andrey": {
-        "password": 12345678,
-        "bank": 1500
+    "@w": {
+        "password": 111111111111,
+        "bank": 150
     }
 }
