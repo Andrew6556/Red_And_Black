@@ -1,47 +1,39 @@
 import os
-import inspect
 from write_and_read import*
+from exceptions import*
+from path_file import*
 
 class User:
 
     @staticmethod
     def user_authorization(name, password):
         "Авторизация пользователя"
-        for users in read_json_file('registered_users.json'):
-            if users["username"] == name and users["password"] == password:
-                return True
+        for users, data_us in read_json_file(USERS_PATH).items():
+            if users == name and password == data_us['password']:
+                return User(name, password)
             
-            else:
-                continue
-
     def __init__(self, name , password, bank=0):
         self.username = name
         self.password = password
         self.bank = bank
 
     def _finding_the_current_bank(self):
-        for users in read_json_file('game_user_statistics.json'):
-            if users['username'] == self.username and users['password'] == self.password:
-                self.bank = users["current bank"]
-                break
+        for users, data_us in read_json_file(USERS_PATH).items():
+            if users == self.username and self.password == data_us['password']:
+                self.bank = data_us["bank"]
+                break 
         else:
-            if os.stat(f'data/game_statistics.json').st_size:
-                for users in read_json_file('registered_users.json'):
+            if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
+                for users, data_us in read_json_file(USERS_PATH).items():
                     if users['username'] == self.username and users['password'] == self.password:
-                        self.bank = users["bank"]
+                        self.bank = data_us["current bank"]
                         break
-
+    
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
         def wrapper(self):
-            while len(str(self.password)) < 8:
-                if len(str(self.password)) < 8:
-                    print(inspect.cleandoc("""
-                    Ваш пароль должен содержать минимум 8 символов"""))
-
-                upgrade_password = int(input('Введите пароль(мин. 8 символов)\n'))
-                self.password = upgrade_password
-
+            if len(str(self.password)) < 8:
+                raise IncorrectPasswordEntry
             return func(self)
         return wrapper
 
@@ -50,23 +42,12 @@ class User:
             без цифр, и должен начинаться с @
         """
         def wrapper(self):
-            while True:
-                if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
-                    print(inspect.cleandoc("""
-                            Вашем логине содержаться цифры - это не допустимо!
-                            Напоминаю, ваш ник должен начинаться с "@" """
-                            ))
-                elif not self.username.startswith('@'):
-                    print(inspect.cleandoc("""
-                            Вашем логин должен начинаться с "@" !
-                            Напоминаю, в логине не может быть цифр"""
-                            ))
-                else:
-                    break
-                
-                correct_nickname = input('Введите корректный ник\n')
-                self.username = correct_nickname
-                
+            
+            if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
+                raise IncorrectLoginNumbers    
+            elif not self.username.startswith('@'):
+                raise LoginStartsWithNoCharacters
+
             return fucn(self)
         return wrapper
 
@@ -75,21 +56,18 @@ class User:
     def user_registration(self):
         """Регистрация пользователя"""
 
-        if os.stat(f'data/registered_users.json',).st_size:
-            data = read_json_file('registered_users.json')
+        if os.stat(f'data/{USERS_PATH}',).st_size:
+            data = read_json_file(USERS_PATH)
         else:
-            data = []
+            data = {}
 
-        data.append({
-            "username":self.username,
-            "password":self.password,
-            "bank":self.bank
-        })
-
-        write_json_file('registered_users.json', data)
-
-    def update_user_bank(self, bet):
-        return self.bank + bet
+        data.update({
+            self.username:{
+                "password":self.password,
+                "bank":self.bank
+                }
+                })
+        write_json_file(USERS_PATH, data)
 
     def bonus_on_adding(func):
         """Бонус к сумме при 1000"""
@@ -109,18 +87,30 @@ class UserInterface:
 
     def __init__(self, user):
         self.user = user 
-        
+    
+    def correct_password_processing(self):
+        try:
+            self.user.user_registration()
+        except IncorrectPasswordEntry:
+            print('Ваш пароль должен содержать цифр 8')
+
+    def error_message_in_login(self):
+        try:
+            self.user.user_registration()
+        except IncorrectLoginNumbers:
+            print('Ваш логин не должен содержать цифр')
+            return False
+        except LoginStartsWithNoCharacters:
+            print('Ваш логин должен начинаться с "@"')
+
     def print_bank(self):
         """Вывод текущего состояния банка"""
         print(f"Ваш текущий банк -- {self.user.bank}")
 
     def print_authorization(self, func):
         """Вывод результатов авторизации"""
-
-        if func == True:
+        if func != None:
             print('Авторизация прошел успешна')
             self.user._finding_the_current_bank()
-            return True
         else:
             print('Ошибка вводе данных')
-            return False

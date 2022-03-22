@@ -4,11 +4,12 @@ import os
 from math import radians
 from write_and_read import*
 from exceptions import NotCorrectColorIndex
+from path_file import*
 
 class RedBlack:
     #класс Game - отвечает за всю логику программы
     
-    def __init__(self, user_color_index, bet):
+    def __init__(self, user_color_index, bet, user_number_bet=0):
         # список красный числе от 1 до 50
         self.red_numbers = [number for number in range(1, 51)]
         # список черных числе от 50 до 100
@@ -20,6 +21,7 @@ class RedBlack:
         #ставка пользователя
         self.bet = bet
         self.user_number = self.__from_color_index_to_number(user_color_index)
+        self.user_bet_number = user_number_bet
 
     def start_game(self):
         """
@@ -44,6 +46,13 @@ class RedBlack:
             return self.bet * 14
 
         return -self.bet
+
+    # def get_prize_number_bet(self):
+    #     if self.game_number == self.user_number:
+    #         return self.bet * 20
+
+    #     return -self.bet
+
 
     def check_correct_index_color(function):
         """Обработка неправильного ввода"""
@@ -114,55 +123,54 @@ class RedBlack:
         
         """Сохранения данных пользователя"""
         
-        data = read_json_file('game_user_statistics.json')
-        for users_data in data:
-            # если наш пользователь есть в базе то в носим новые данные к ним
-            if users_data["username"] == username and \
-                users_data["password"] == password:
-
-                users_data["history start bank"].append(start_bank)
-                users_data["bet"].append(self.bet)
-                users_data["color"].append(color)
-                users_data["history end bank"].append(end_bank)
-                users_data["result"].append(result)
-                users_data["current bank"] = end_bank
+        data = read_json_file(f'{USER_STATISTICS_GAME_PATH}')
+        for users, data_us in data.items():
+            if users == username and data_us["password"] == password:
+                data_us["history start bank"].append(start_bank)
+                data_us["bet"].append(self.bet)
+                data_us["color"].append(color)
+                data_us["history end bank"].append(end_bank)
+                data_us["result"].append(result)
+                data_us["current bank"] = end_bank
                 break
             
         else:
             # если нет ,то добавляем usera в базу данных
-            data.append({
-                "username":username,
-                "password":password,
-                "history start bank":[start_bank],
-                "bet":[self.bet],
-                "color":[color],
-                "history end bank":[end_bank],
-                "result":[result],
-                "current bank":end_bank,
-            })
+            data.update({
+                username:{
+                    "password":password,
+                    "history start bank":[start_bank],
+                    "bet":[self.bet],
+                    "color":[color],
+                    "history end bank":[end_bank],
+                    "result":[result],
+                    "current bank":end_bank
+                    }
+                })
 
-        write_json_file('game_user_statistics.json', data)
+        write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
     @result_game_past
     @color_game
     def adding_data_about_the_past_game(self, user_name, password, start_bank,
                                         color, end_bank, result):
 
-        if os.stat(f'data/game_statistics.json').st_size:
-            data = read_json_file('game_statistics.json')
+        if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
+            data = read_json_file(f'{GAME_STATISTICS_PATH}')
         else:
-            data = []
+            data = {}
 
-        data.append({
-                    "username":user_name,
-                    "initial bank":start_bank,
-                    "bet":self.bet,
-                    "color":color,
-                    "end bank":end_bank,
-                    "result": result
+        data.update({
+                    user_name:{
+                        "initial bank":start_bank,
+                        "bet":self.bet,
+                        "color":color,
+                        "end bank":end_bank,
+                        "result": result
+                    }
                 })   
 
-        write_json_file('game_statistics.json', data)
+        write_json_file(f'{GAME_STATISTICS_PATH}', data)
 class GameInteface:
     
     def __init__(self, game):
@@ -185,7 +193,7 @@ class GameInteface:
 
         return wrapper
 
-    @drop_effect
+    # @drop_effect
     def game_result_information(self):
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")
@@ -201,3 +209,15 @@ class GameInteface:
         else:
             print("Поздравялем с победой!")
 
+    # @drop_effect
+    # def number_pick_game_result(self):
+    #     if self.game.game_number == self.game.user_bet_number or \
+    #         self.game.game_number != self.game.user_bet_number:
+    #         print(f"Выпало -- {self.game.game_number}")
+
+    # def number_game_result(self):
+    #     game_result = self.game.get_prize_color_bet()
+    #     if game_result < 0:
+    #         print("К сожанию, вы проиграли")
+    #     else:
+    #         print("Поздравялем с победой!")

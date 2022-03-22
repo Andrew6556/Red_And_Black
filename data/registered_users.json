@@ -1,12 +1,18 @@
-[
-    {
-        "username": "@qwqw",
-        "password": 12121233131,
+{
+    "@qwqw": {
+        "password": 12345678,
         "bank": 100
     },
-    {
-        "username": "@andreygood",
+    "@andreygood": {
         "password": 8878787878787,
         "bank": 1000
+    },
+    "@q": {
+        "password": 12345678,
+        "bank": 10
+    },
+    "@andrey": {
+        "password": 12345678,
+        "bank": 1500
     }
-]
+}

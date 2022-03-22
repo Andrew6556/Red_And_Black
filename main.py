@@ -3,6 +3,8 @@ from user import*
 import inspect
 
 
+
+
 print("Добро пожаловать в игру")
 loop = True
 while True:
@@ -14,27 +16,38 @@ while True:
         """)))
         
         if user_choice == 1:
-            user_name = input('Введите ваше имя\n')
-            user_password = int(input('Введите пароль\n'))
-            user_bank_game = int(input("Ваш банк: "))
-            user = User(
-            user_name,
-            user_password,
-            )
-            user.bank += user_bank_game
-            user.user_registration()
+            
+            while True:
+                user_name = input('Введите ваше имя\n')
+                user_password = int(input('Введите пароль\n'))
+                user_bank_game = int(input("Ваш банк: "))
+                user = User(user_name, user_password, user_bank_game)
+                console = UserInterface(user)
+                try:
+                    user.bank += user_bank_game 
+                    user.user_registration()
+                except IncorrectLoginNumbers:
+                    console.error_message_in_login()
+                except LoginStartsWithNoCharacters:
+                    console.error_message_in_login()
+                except IncorrectPasswordEntry:
+                    console.correct_password_processing()
+                else:
+                    break
+            
+            
             print('Регистрация прошла успешно')
             
         elif user_choice == 2:
             while loop:
+                
                 user_name = input('Введите ваше имя\n')
                 user_password = int(input('Введите пароль\n'))
 
                 user = User(user_name, user_password)
                 user_int = UserInterface(user)
-                # current_bank = user.bank
                 
-                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == True:
+                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == None:
                     user_int.print_bank()
                     current_bank = user.bank
                     print(inspect.cleandoc("""
@@ -62,7 +75,7 @@ while True:
         print('Это недопустимая ставка, введите число меньше 300')
         continue
 
-    if user.bank - user_bet:
+    if user.bank - user_bet < 0:
         print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
         continue
     
@@ -73,7 +86,7 @@ while True:
     game = RedBlack(user_color_choice, user_bet)
     game.start_game()
     prize = game.get_prize_color_bet()
-
+    print(f'bet {prize}')
     console = GameInteface(game)
     console.game_result_information()
     console.checking_winning()
