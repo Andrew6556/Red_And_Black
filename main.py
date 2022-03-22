@@ -24,6 +24,7 @@ while True:
                 user = User(user_name, user_password, user_bank_game)
                 console = UserInterface(user)
                 try:
+                    user.bank += user_bank_game 
                     user.user_registration()
                 except IncorrectLoginNumbers:
                     console.error_message_in_login()
@@ -34,7 +35,7 @@ while True:
                 else:
                     break
             
-            user.bank += user_bank_game #сверить нужно ли это
+            
             print('Регистрация прошла успешно')
             
         elif user_choice == 2:
@@ -74,9 +75,8 @@ while True:
         print('Это недопустимая ставка, введите число меньше 300')
         continue
 
-    if user.bank - user_bet:
+    if user.bank - user_bet < 0:
         print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
-        print(user.bank)
         continue
     
     print("0. Зелёное\n1. Красное\n2. Чёрное")
@@ -86,7 +86,7 @@ while True:
     game = RedBlack(user_color_choice, user_bet)
     game.start_game()
     prize = game.get_prize_color_bet()
-
+    print(f'bet {prize}')
     console = GameInteface(game)
     console.game_result_information()
     console.checking_winning()

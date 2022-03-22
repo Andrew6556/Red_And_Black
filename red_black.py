@@ -47,11 +47,11 @@ class RedBlack:
 
         return -self.bet
 
-    def get_prize_number_bet(self):
-        if self.game_number == self.user_number:
-            return self.bet * 20
+    # def get_prize_number_bet(self):
+    #     if self.game_number == self.user_number:
+    #         return self.bet * 20
 
-        return -self.bet
+    #     return -self.bet
 
 
     def check_correct_index_color(function):
@@ -137,7 +137,7 @@ class RedBlack:
         else:
             # если нет ,то добавляем usera в базу данных
             data.update({
-                "username":{
+                username:{
                     "password":password,
                     "history start bank":[start_bank],
                     "bet":[self.bet],
@@ -193,7 +193,7 @@ class GameInteface:
 
         return wrapper
 
-    @drop_effect
+    # @drop_effect
     def game_result_information(self):
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")
@@ -202,23 +202,22 @@ class GameInteface:
         else:
             print(f"Выпало зелёное -- {self.game.game_number}")
 
-    @drop_effect
-    def number_pick_game_result(self):
-        if self.game.game_number == self.game.user_bet_number or \
-            self.game.game_number != self.game.user_bet_number:
-            print(f"Выпало -- {self.game.game_number}")
-
-    def number_game_result(self):
+    def checking_winning(self):
         game_result = self.game.get_prize_color_bet()
         if game_result < 0:
             print("К сожанию, вы проиграли")
         else:
             print("Поздравялем с победой!")
 
-    def checking_winning(self):
-        game_result = self.get_prize_number_bet()
-        if game_result < 0:
-            print("К сожанию, вы проиграли")
-        else:
-            print("Поздравялем с победой!")
+    # @drop_effect
+    # def number_pick_game_result(self):
+    #     if self.game.game_number == self.game.user_bet_number or \
+    #         self.game.game_number != self.game.user_bet_number:
+    #         print(f"Выпало -- {self.game.game_number}")
 
+    # def number_game_result(self):
+    #     game_result = self.game.get_prize_color_bet()
+    #     if game_result < 0:
+    #         print("К сожанию, вы проиграли")
+    #     else:
+    #         print("Поздравялем с победой!")

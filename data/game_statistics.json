@@ -1,3 +1,9 @@
 {
-    
+    "@andreygood": {
+        "initial bank": 1000,
+        "bet": 2,
+        "color": "black",
+        "end bank": 1002,
+        "result": "win"
+    }
 }

@@ -1,0 +1,36 @@
+{
+    "@andreygood": {
+        "password": 8878787878787,
+        "history start bank": [
+            1000,
+            1000,
+            1000,
+            1000
+        ],
+        "bet": [
+            2,
+            2,
+            2,
+            2
+        ],
+        "color": [
+            "black",
+            "black",
+            "black",
+            "black"
+        ],
+        "history end bank": [
+            1004,
+            1004,
+            998,
+            1002
+        ],
+        "result": [
+            "win",
+            "win",
+            "lose",
+            "win"
+        ],
+        "current bank": 1002
+    }
+}
