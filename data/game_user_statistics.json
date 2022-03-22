@@ -1,21 +1,31 @@
 {
-    "@andrey": {
-        "password": 12345678,
+    "@a": {
+        "password": 111111111111,
         "history start bank": [
-            1500
+            1000,
+            998,
+            1002
         ],
         "bet": [
-            111
+            2,
+            2,
+            131
         ],
         "color": [
+            "black",
+            "black",
             "black"
         ],
         "history end bank": [
-            1389
+            998,
+            1002,
+            871
         ],
         "result": [
+            "lose",
+            "win",
             "lose"
         ],
-        "current bank": 1389
+        "current bank": 871
     }
 }

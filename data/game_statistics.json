@@ -1,16 +1,10 @@
-{
-    "@andreygood": {
-        "initial bank": 1000,
-        "bet": 2,
+[
+    {
+        "name": "@a",
+        "initial bank": 1002,
+        "bet": 131,
         "color": "black",
-        "end bank": 1002,
-        "result": "win"
-    },
-    "@andrey": {
-        "initial bank": 1500,
-        "bet": 111,
-        "color": "black",
-        "end bank": 1389,
+        "end bank": 871,
         "result": "lose"
     }
-}
+]

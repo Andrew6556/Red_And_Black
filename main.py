@@ -3,8 +3,6 @@ from user import*
 import inspect
 
 
-
-
 print("Добро пожаловать в игру")
 loop = True
 while True:
@@ -24,7 +22,7 @@ while True:
                 user = User(user_name, user_password, user_bank_game)
                 console = UserInterface(user)
                 try:
-                    user.bank += user_bank_game 
+                    # user.bank += user_bank_game 
                     user.user_registration()
                 except IncorrectLoginNumbers:
                     console.error_message_in_login()
@@ -86,7 +84,7 @@ while True:
     game = RedBlack(user_color_choice, user_bet)
     game.start_game()
     prize = game.get_prize_color_bet()
-    print(f'bet {prize}')
+    
     console = GameInteface(game)
     console.game_result_information()
     console.checking_winning()
