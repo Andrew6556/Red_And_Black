@@ -5,5 +5,12 @@
         "color": "black",
         "end bank": 1002,
         "result": "win"
+    },
+    "@andrey": {
+        "initial bank": 1500,
+        "bet": 111,
+        "color": "black",
+        "end bank": 1389,
+        "result": "lose"
     }
 }

@@ -18,15 +18,15 @@ class User:
         self.bank = bank
 
     def _finding_the_current_bank(self):
-        for users, data_us in read_json_file(USERS_PATH).items():
+        for users, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
             if users == self.username and self.password == data_us['password']:
-                self.bank = data_us["bank"]
+                self.bank = data_us["current bank"]
                 break 
         else:
             if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
                 for users, data_us in read_json_file(USERS_PATH).items():
                     if users['username'] == self.username and users['password'] == self.password:
-                        self.bank = data_us["current bank"]
+                        self.bank = data_us["bank"]
                         break
     
     def checking_for_password_complexity(func):
