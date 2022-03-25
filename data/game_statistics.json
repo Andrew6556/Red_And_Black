@@ -6,5 +6,29 @@
         "color": "black",
         "end bank": 871,
         "result": "lose"
+    },
+    {
+        "name": "@andreygood",
+        "initial bank": 1000,
+        "bet": 222,
+        "color": 1,
+        "end bank": 778,
+        "result": "lose"
+    },
+    {
+        "name": "@andreygood",
+        "initial bank": 1000,
+        "bet": 111,
+        "color": 2,
+        "end bank": 889,
+        "result": "lose"
+    },
+    {
+        "name": "@a",
+        "initial bank": 871,
+        "bet": 111,
+        "num": 2,
+        "end bank": 760,
+        "result": "lose"
     }
 ]

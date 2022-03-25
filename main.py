@@ -67,42 +67,91 @@ while True:
                         print('Хорошей игры :)')
                         loop = False
 
-    user_bet = int(input("Введите вашу ставку(макс.стака 300р): "))
+    print(inspect.cleandoc("""
+    Выбирете какой вариант игры вам подходит:
+    1.C выбором цвета(их всего три:черный, красный и самый редкий зеленый) - не особо рисковая игра
+    2.Наиболее рисковая игра.Выбераете число если оно выпадает, то вы выйграли - большой куш ,но и риск проиграть высок :)
+    """))
     
-    if user_bet > 300:
-        print('Это недопустимая ставка, введите число меньше 300')
-        continue
+    choice_game = int(input('Введите вариант игры(цифрой): '))
 
-    if user.bank - user_bet < 0:
-        print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
-        continue
-    
-    print("0. Зелёное\n1. Красное\n2. Чёрное")
+    if choice_game == 1:
+        user_bet = int(input("Введите вашу ставку(макс.стака 300р): "))
+        
+        if user_bet > 300:
+            print('Это недопустимая ставка, введите число меньше 300')
+            continue
 
-    user_color_choice = int(input("Цвет (выберете цифрой): "))
-    
-    game = RedBlack(user_color_choice, user_bet)
-    game.start_game()
-    prize = game.get_prize_color_bet()
-    
-    console = GameInteface(game)
-    console.game_result_information()
-    console.checking_winning()
+        if user.bank - user_bet < 0:
+            print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
+            continue
+        
+        print("0. Зелёное\n1. Красное\n2. Чёрное")
 
-    user.bank += prize
-    user_int.print_bank()
+        user_color_choice = int(input("Цвет (выберете цифрой): "))
+        
+        game = RedBlack(user_color_choice, user_bet)
+        game.start_game()
+        prize = game.get_prize_color_bet()
+        
+        console = GameInteface(game)
+        console.game_result_information()
+        console.checking_winning()
 
-    game.adding_data_about_the_past_game(user_name, user.password, current_bank, user_color_choice, user.bank)
-    game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
-    choice_end_programm = input('Для выхода из программы напишите "3"\n')
+        user.bank += prize
+        user_int.print_bank()
 
-    if user.bank == 0:
-        print('Игра окончена!\nУ вас недастаточно средств для продолжения')
-        break
+        game.adding_data_about_the_past_game(user_name, user.password, current_bank, user_color_choice, user.bank)
+        game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
+        choice_end_programm = input('Для выхода из программы напишите "3"\n')
 
-    if choice_end_programm == 3:
-        print('Вы успешно вышли из программы')
-        break
-    else:
-        print('Хорошо\nУдачной игры')
+        if user.bank == 0:
+            print('Игра окончена!\nУ вас недастаточно средств для продолжения')
+            break
 
+        if choice_end_programm == 3:
+            print('Вы успешно вышли из программы')
+            break
+        else:
+            print('Хорошо\nУдачной игры')
+
+    if choice_game == 2:
+        user_bet = int(input("Введите вашу ставку(макс.стака 300р): "))
+        
+        if user_bet > 300:
+            print('Это недопустимая ставка, введите число меньше 300')
+            continue
+
+        if user.bank - user_bet < 0:
+            print('Эта ставка не допустима\nУ вас не достаточно средств для нее')
+            continue
+
+        print("Выберете число от 0 до 100")
+
+        choice_num = int(input("введите число\n"))
+        
+        game = RedBlack(user_bet, user_number_bet=choice_num)
+        print(game.user_number_bet, game.user_number)
+        game.start_game() 
+        prize = game.get_prize_number_bet()
+        
+        console = GameInteface(game)
+        console.game_result_information()
+        console.number_game_result()
+
+        user.bank += prize
+        user_int.print_bank()
+
+        game.adding_data_about_the_past_game(user_name, user.password, current_bank, choice_num, user.bank)
+        # game.adding_user_data(user.username, user.password , current_bank, choice_num, user.bank)
+        # choice_end_programm = input('Для выхода из программы напишите "3"\n')
+
+        # if user.bank == 0:
+        #     print('Игра окончена!\nУ вас недастаточно средств для продолжения')
+        #     break
+
+        # if choice_end_programm == 3:
+        #     print('Вы успешно вышли из программы')
+        #     break
+        # else:
+        #     print('Хорошо\nУдачной игры')

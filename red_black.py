@@ -9,7 +9,7 @@ from path_file import*
 class RedBlack:
     #класс Game - отвечает за всю логику программы
     
-    def __init__(self, user_color_index, bet, user_number_bet=0):
+    def __init__(self, bet, user_color_index=0 , user_number_bet=''):
         # список красный числе от 1 до 50
         self.red_numbers = [number for number in range(1, 51)]
         # список черных числе от 50 до 100
@@ -21,7 +21,7 @@ class RedBlack:
         #ставка пользователя
         self.bet = bet
         self.user_number = self.__from_color_index_to_number(user_color_index)
-        self.user_bet_number = user_number_bet
+        self.user_number_bet = user_number_bet
 
     def start_game(self):
         """
@@ -47,12 +47,11 @@ class RedBlack:
 
         return -self.bet
 
-    # def get_prize_number_bet(self):
-    #     if self.game_number == self.user_number:
-    #         return self.bet * 20
+    def get_prize_number_bet(self):
+        if self.game_number == self.user_number_bet:
+            return self.bet * 30
 
-    #     return -self.bet
-
+        return -self.bet
 
     def check_correct_index_color(function):
         """Обработка неправильного ввода"""
@@ -91,14 +90,14 @@ class RedBlack:
         """заменяем индекс выбранного цвета на сам цвет"""
         def wrapper(self, name, password, user_bank,
                         color, *args, **kwargs):
-            if color == 0:
-                color='green'
-            elif color == 1:
-                color='red'
+            if self.user_number_bet == '':
+                if color == 0:
+                    color='green'
+                elif color == 1:
+                    color='red'
+                elif color == 2:
+                    color='black'
 
-            elif color == 2:
-                color='black'
-            
             func(self, name, password, user_bank, color, *args, **kwargs)
         return wrapper
 
@@ -160,15 +159,25 @@ class RedBlack:
         else:
             data = []
 
-        data.append({
+        if self.user_number_bet == '':
+            data.append({
                         "name":user_name,
                         "initial bank":start_bank,
                         "bet":self.bet,
                         "color":color,
                         "end bank":end_bank,
                         "result": result
-                    })  
-
+                        })
+        else:
+            data.append({
+                        "name":user_name,
+                        "initial bank":start_bank,
+                        "bet":self.bet,
+                        "num":color,
+                        "end bank":end_bank,
+                        "result": result
+                        })  
+                        
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
 class GameInteface:
     
@@ -208,15 +217,10 @@ class GameInteface:
         else:
             print("Поздравялем с победой!")
 
-    # @drop_effect
-    # def number_pick_game_result(self):
-    #     if self.game.game_number == self.game.user_bet_number or \
-    #         self.game.game_number != self.game.user_bet_number:
-    #         print(f"Выпало -- {self.game.game_number}")
-
-    # def number_game_result(self):
-    #     game_result = self.game.get_prize_color_bet()
-    #     if game_result < 0:
-    #         print("К сожанию, вы проиграли")
-    #     else:
-    #         print("Поздравялем с победой!")
+    def number_game_result(self):
+        "результат игры с выбором числа"
+        game_result = self.game.get_prize_number_bet()
+        if game_result < 0:
+            print("К сожанию, вы проиграли")
+        else:
+            print("Поздравялем с победой!")
