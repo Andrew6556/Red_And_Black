@@ -1,5 +1,5 @@
 import os
-from write_and_read import*
+from write_and_read import read_json_file, write_json_file
 from exceptions import*
 from path_file import*
 
@@ -99,7 +99,6 @@ class UserInterface:
             self.user.user_registration()
         except IncorrectLoginNumbers:
             print('Ваш логин не должен содержать цифр')
-            return False
         except LoginStartsWithNoCharacters:
             print('Ваш логин должен начинаться с "@"')
 

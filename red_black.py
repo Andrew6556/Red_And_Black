@@ -127,25 +127,44 @@ class RedBlack:
             if users == username and data_us["password"] == password:
                 data_us["history start bank"].append(start_bank)
                 data_us["bet"].append(self.bet)
-                data_us["color"].append(color)
                 data_us["history end bank"].append(end_bank)
                 data_us["result"].append(result)
                 data_us["current bank"] = end_bank
+                if self.user_number_bet == "":
+                    data_us["color"].append(color)
+                    break
+
+                data_us["number"].append(color)
                 break
             
         else:
             # если нет ,то добавляем usera в базу данных
-            data.update({
-                username:{
-                    "password":password,
-                    "history start bank":[start_bank],
-                    "bet":[self.bet],
-                    "color":[color],
-                    "history end bank":[end_bank],
-                    "result":[result],
-                    "current bank":end_bank
-                    }
-                })
+            if self.user_number_bet == "":
+                data.update({
+                    username:{
+                        "password":password,
+                        "history start bank":[start_bank],
+                        "bet":[self.bet],
+                        "color":[color],
+                        "number":[],
+                        "history end bank":[end_bank],
+                        "result":[result],
+                        "current bank":end_bank
+                        }
+                    })
+            else:
+                data.update({
+                    username:{
+                        "password":password,
+                        "history start bank":[start_bank],
+                        "bet":[self.bet],
+                        "color":[],
+                        "number":[color],
+                        "history end bank":[end_bank],
+                        "result":[result],
+                        "current bank":end_bank
+                        }
+                    })
 
         write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
@@ -173,7 +192,7 @@ class RedBlack:
                         "name":user_name,
                         "initial bank":start_bank,
                         "bet":self.bet,
-                        "num":color,
+                        "number":color,
                         "end bank":end_bank,
                         "result": result
                         })  

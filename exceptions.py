@@ -9,3 +9,6 @@ class IncorrectLoginNumbers(Exception):
     pass
 class LoginStartsWithNoCharacters(Exception):
     pass
+
+class NumberIsOutOfRange(Exception):
+    pass

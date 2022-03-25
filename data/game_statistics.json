@@ -9,26 +9,66 @@
     },
     {
         "name": "@andreygood",
-        "initial bank": 1000,
-        "bet": 222,
-        "color": 1,
-        "end bank": 778,
+        "initial bank": 699,
+        "bet": 1,
+        "number": 2,
+        "end bank": 698,
         "result": "lose"
     },
     {
         "name": "@andreygood",
-        "initial bank": 1000,
+        "initial bank": 700,
+        "bet": 2,
+        "color": "red",
+        "end bank": 698,
+        "result": "lose"
+    },
+    {
+        "name": "@andreygood",
+        "initial bank": 700,
         "bet": 111,
-        "color": 2,
-        "end bank": 889,
+        "number": 100,
+        "end bank": 587,
+        "result": "lose"
+    },
+    {
+        "name": "@andreygood",
+        "initial bank": 587,
+        "bet": 300,
+        "number": 100,
+        "end bank": 287,
         "result": "lose"
     },
     {
         "name": "@a",
-        "initial bank": 871,
+        "initial bank": 1000,
         "bet": 111,
-        "num": 2,
-        "end bank": 760,
+        "number": 1,
+        "end bank": 4330,
+        "result": "win"
+    },
+    {
+        "name": "@a",
+        "initial bank": 1000,
+        "bet": 3,
+        "number": 3,
+        "end bank": 4327,
+        "result": "win"
+    },
+    {
+        "name": "@a",
+        "initial bank": 4327,
+        "bet": 222,
+        "color": "black",
+        "end bank": 4105,
         "result": "lose"
+    },
+    {
+        "name": "@a",
+        "initial bank": 4105,
+        "bet": 2,
+        "color": "black",
+        "end bank": 4109,
+        "result": "win"
     }
 ]
