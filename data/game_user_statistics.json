@@ -66,39 +66,68 @@
         "current bank": 287
     },
     "@a": {
-        "password": 111111111111,
+        "password": 12345678,
+        "history start bank": [
+            1000
+        ],
+        "bet": [
+            100
+        ],
+        "color": [
+            "red"
+        ],
+        "number": [],
+        "history end bank": [
+            1200
+        ],
+        "result": [
+            "win"
+        ],
+        "current bank": 1200
+    },
+    "@Andrey": {
+        "password": 12345678,
         "history start bank": [
             1000,
             1000,
-            4327,
-            4105
+            1200,
+            1000,
+            1200,
+            1200
         ],
         "bet": [
-            111,
-            3,
-            222,
-            2
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
         ],
         "color": [
-            "black",
-            "black"
+            "red",
+            "red",
+            "red",
+            "red",
+            "red",
+            "red"
         ],
-        "number": [
-            1,
-            3
-        ],
+        "number": [],
         "history end bank": [
-            4330,
-            4327,
-            4105,
-            4109
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
         ],
         "result": [
             "win",
             "win",
             "lose",
-            "win"
+            "win",
+            "lose",
+            "lose"
         ],
-        "current bank": 4109
+        "current bank": 1200
     }
 }

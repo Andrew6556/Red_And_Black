@@ -74,7 +74,6 @@ class User:
         def wrapper(self, money, *args, **kwargs):
             if money >= 1000:
                 money += 100
-                print(money)
             
             return func(self, money, *args, **kwargs)
         return wrapper
@@ -111,5 +110,6 @@ class UserInterface:
         if func != None:
             print('Авторизация прошел успешна')
             self.user._finding_the_current_bank()
+            return True
         else:
             print('Ошибка вводе данных')

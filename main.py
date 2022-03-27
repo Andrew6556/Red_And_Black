@@ -46,7 +46,7 @@ while main:
                 user = User(user_name, user_password)
                 user_int = UserInterface(user)
                 
-                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == None:
+                if user_int.print_authorization(user.user_authorization(user_name, user_password)) == True:
                     user_int.print_bank()
                     current_bank = user.bank
                     print(inspect.cleandoc("""
@@ -59,7 +59,7 @@ while main:
     
                     if choice_to_add_money_to_the_bank == 1:
                         addition_amount = int(input('Введите сумму которую хотите добавить\n'))
-                        user_int.add_money_in_bank(addition_amount)
+                        user.update_bank(addition_amount)
                         user_int.print_bank()
                         print('Хорошей игры :)')
                         loop = False
@@ -80,7 +80,7 @@ while main:
         while main:
             user_bet = int(input("Введите вашу ставку(макс.стака 300р): "))
             
-            if user_bet > 300:
+            if user_bet > 300 and user_bet <= 0:
                 print('Это недопустимая ставка, введите число меньше 300')
                 continue
 
