@@ -70,5 +70,69 @@
         "color": "black",
         "end bank": 4109,
         "result": "win"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
+    },
+    {
+        "name": "Святой Гриша",
+        "initial bank": 1500,
+        "bet": 100,
+        "color": "black",
+        "end bank": 1200,
+        "result": "lose"
     }
 ]
