@@ -6,13 +6,13 @@ from path_file import*
 class User:
 
     @staticmethod
-    def user_authorization(name, password):
+    def user_authorization(name:str, password:int):
         "Авторизация пользователя"
         for users, data_us in read_json_file(USERS_PATH).items():
             if users == name and password == data_us['password']:
                 return User(name, password)
             
-    def __init__(self, name , password, bank=0):
+    def __init__(self, name:str , password:int, bank=0):
         self.username = name
         self.password = password
         self.bank = bank
@@ -42,8 +42,7 @@ class User:
             без цифр, и должен начинаться с @
         """
         def wrapper(self):
-            
-            if [i for i in self.username if i in ['0','1','2','3','4','5','6','7','8','9']]:
+            if list(filter(lambda letter:letter.isdigit(), self.username)):
                 raise IncorrectLoginNumbers    
             elif not self.username.startswith('@'):
                 raise LoginStartsWithNoCharacters
@@ -79,7 +78,7 @@ class User:
         return wrapper
 
     @bonus_on_adding
-    def update_bank(self, money):
+    def update_bank(self, money:int):
         self.bank += money
 
 class UserInterface:
