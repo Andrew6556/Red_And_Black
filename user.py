@@ -6,13 +6,13 @@ from path_file import*
 class User:
 
     @staticmethod
-    def user_authorization(name:str, password:int):
+    def user_authorization(name:str, password:int) -> object:
         "Авторизация пользователя"
         for users, data_us in read_json_file(USERS_PATH).items():
             if users == name and password == data_us['password']:
                 return User(name, password)
             
-    def __init__(self, name:str , password:int, bank=0):
+    def __init__(self, name:str , password:int, bank=0) -> None:
         self.username = name
         self.password = password
         self.bank = bank
@@ -78,12 +78,12 @@ class User:
         return wrapper
 
     @bonus_on_adding
-    def update_bank(self, money:int):
+    def update_bank(self, money:int) -> None:
         self.bank += money
 
 class UserInterface:
 
-    def __init__(self, user):
+    def __init__(self, user:object):
         self.user = user 
     
     def correct_password_processing(self):

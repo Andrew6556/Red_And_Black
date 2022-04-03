@@ -9,7 +9,7 @@ from path_file import*
 class RedBlack:
     #класс Game - отвечает за всю логику программы
     
-    def __init__(self, bet, user_color_index=0 , user_number_bet=''):
+    def __init__(self, bet:int, user_color_index=0 , user_number_bet='') -> None:
         # список красный числе от 1 до 50
         self.red_numbers = [number for number in range(1, 51)]
         # список черных числе от 50 до 100
@@ -23,7 +23,7 @@ class RedBlack:
         self.user_number = self.__from_color_index_to_number(user_color_index)
         self.user_number_bet = user_number_bet
 
-    def start_game(self):
+    def start_game(self) -> list:
         """
         Начало игры - перевешиваем числа,
         и рандомно выбираем выйгрышное число
@@ -31,7 +31,7 @@ class RedBlack:
         self.__shuffle_game_box()
         self.game_number = self.__generate_number()
 
-    def get_prize_color_bet(self):
+    def get_prize_color_bet(self) -> int:
         """Результат ставки - выйграл или проиграл"""
         #если игровое число,есть в красном списке и
         #число пользователя,есть в красном списке то он выйграл
@@ -47,7 +47,7 @@ class RedBlack:
 
         return -self.bet
 
-    def get_prize_number_bet(self):
+    def get_prize_number_bet(self) -> int:
         if self.game_number == self.user_number_bet:
             return self.bet * 30
 
@@ -63,7 +63,7 @@ class RedBlack:
 
         return wrapper
 
-    def __shuffle_game_box(self):
+    def __shuffle_game_box(self) -> list:
         """
             Перемешиваем все числа
             Теперь у нас полноценная рулетка :)
@@ -71,7 +71,7 @@ class RedBlack:
         return random.shuffle(self.game_box)
         #random.shuffle перемешивает список
 
-    def __generate_number(self):
+    def __generate_number(self) -> int:
         """Генерируем выйграшное число"""
         return random.sample(self.game_box, 1)[0]# <= Возращает не массив с чиcлом ,а только число
         #random.sample берет массив за первый аргумент 
@@ -79,7 +79,7 @@ class RedBlack:
         
 
     @check_correct_index_color
-    def __from_color_index_to_number(self, user_color_index):
+    def __from_color_index_to_number(self, user_color_index:int) -> int:
         if user_color_index == 1:
             return random.sample(self.red_numbers, 1)[0]
         elif user_color_index == 2:
@@ -117,8 +117,8 @@ class RedBlack:
 
     @result_game_past
     @color_game
-    def adding_user_data(self, username, password, start_bank,
-                        color, end_bank, result):
+    def adding_user_data(self, username:str, password:int, start_bank:int,
+                        color:int, end_bank:int, result) -> None:
         
         """Сохранения данных пользователя"""
         
@@ -170,8 +170,8 @@ class RedBlack:
 
     @result_game_past
     @color_game
-    def adding_data_about_the_past_game(self, user_name, password, start_bank,
-                                        color, end_bank, result):
+    def adding_data_about_the_past_game(self, user_name:str, password:int, start_bank:int,
+                                        color:int, end_bank:int, result) -> None:
 
         if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
             data = read_json_file(f'{GAME_STATISTICS_PATH}')
@@ -200,7 +200,7 @@ class RedBlack:
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
 class GameInteface:
     
-    def __init__(self, game):
+    def __init__(self, game:object):
         self.game = game
     
     def drop_effect(function):
@@ -212,16 +212,19 @@ class GameInteface:
             else:
                 numbers = self.game.game_box[game_number_index: game_number_index + 20]
 
-            for index, number in enumerate(numbers, 1):
-                print(f"{number}\n", end='')
-                time.sleep(.1 + index/25)
-                
+            # for index, number in enumerate(numbers, 1):
+            #     print(f"{number}\n", end='')
+            #     time.sleep(.1 + index/25)
+
+            [(print(f"{number}\n", end='') ,time.sleep(.1 + index/25))
+                for index, number in enumerate(numbers, 1) ]
+            
             return function(self, *args, **kwargs)
 
         return wrapper
 
-    # @drop_effect
-    def game_result_information(self):
+    @drop_effect
+    def game_result_information(self) -> None:
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")
         elif self.game.game_number in self.game.black_numbers:
