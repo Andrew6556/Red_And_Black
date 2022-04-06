@@ -7,7 +7,6 @@ class User:
 
     @staticmethod
     def user_authorization(name:str, password:int) -> object:
-        "Авторизация пользователя"
         for users, data_us in read_json_file(USERS_PATH).items():
             if users == name and password == data_us['password']:
                 return User(name, password)
@@ -17,17 +16,16 @@ class User:
         self.password = password
         self.bank = bank
 
-    def _finding_the_current_bank(self):
+    def _finding_the_current_bank(self) -> None:
         for users, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
             if users == self.username and self.password == data_us['password']:
                 self.bank = data_us["current bank"]
                 break 
         else:
-            # if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
-                for users, data_us in read_json_file(USERS_PATH).items():
-                    if users == self.username and self.password == data_us['password']:
-                        self.bank = data_us["bank"]
-                        break
+            for users, data_us in read_json_file(USERS_PATH).items():
+                if users == self.username and self.password == data_us['password']:
+                    self.bank = data_us["bank"]
+                    break
     
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
@@ -53,7 +51,6 @@ class User:
     @checking_for_password_complexity
     @checking_for_correct_login
     def user_registration(self):
-        """Регистрация пользователя"""
 
         if os.stat(f'data/{USERS_PATH}',).st_size:
             data = read_json_file(USERS_PATH)

@@ -5,8 +5,8 @@ import inspect
 
 
 print("Добро пожаловать в игру")
-loop = True
-main = True
+loop: bool = True
+main: bool = True
 while main:
     while loop:
         user_choice = int(input(inspect.cleandoc("""
@@ -21,6 +21,7 @@ while main:
                 user_name = input('Введите ваше имя\n')
                 user_password = int(input('Введите пароль\n'))
                 user_bank_game = int(input("Ваш банк: "))
+                
                 user = User(user_name, user_password, user_bank_game)
                 console = UserInterface(user)
                 try:
@@ -62,11 +63,11 @@ while main:
                         user.update_bank(addition_amount)
                         user_int.print_bank()
                         print('Хорошей игры :)')
-                        loop = False
+                        loop: bool = False
 
                     elif choice_to_add_money_to_the_bank == 2:
                         print('Хорошей игры :)')
-                        loop = False
+                        loop: bool = False
 
     print(inspect.cleandoc("""
     Выбирете какой вариант игры вам подходит:
@@ -90,7 +91,7 @@ while main:
             
             print("0. Зелёное\n1. Красное\n2. Чёрное")
 
-            user_color_choice = int(input("Цвет (выберете цифрой): "))
+            user_color_choice: int = int(input("Цвет (выберете цифрой): "))
             
             game = RedBlack(user_bet, user_color_choice)
             game.start_game()
@@ -103,17 +104,17 @@ while main:
             user.bank += prize
             user_int.print_bank()
 
-            game.adding_data_about_the_past_game(user_name, user.password, current_bank, user_color_choice, user.bank)
+            game.adding_data_about_the_past_game(user_name, current_bank, user_color_choice, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
             choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
 
             if user.bank == 0:
                 print('Игра окончена!\nУ вас недастаточно средств для продолжения')
-                main = False
+                main: bool = False
 
             if choice_end_programm == 3:
                 print('Вы успешно вышли из программы')
-                main = False
+                main: bool = False
             else:
                 print('Хорошо\nУдачной игры')
 
@@ -152,16 +153,16 @@ while main:
             user.bank += prize
             user_int.print_bank()
 
-            game.adding_data_about_the_past_game(user_name, user.password, current_bank, choice_num, user.bank)
+            game.adding_data_about_the_past_game(user_name,  current_bank, choice_num, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, choice_num, user.bank)
             choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
 
             if user.bank == 0:
                 print('Игра окончена!\nУ вас недастаточно средств для продолжения')
-                main = False
+                main: bool = False
 
             if choice_end_programm == 3:
                 print('Вы успешно вышли из программы')
-                main = False
+                main: bool = False
             else:
                 print('Хорошо\nУдачной игры')

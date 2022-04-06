@@ -54,8 +54,6 @@ class RedBlack:
         return -self.bet
 
     def check_correct_index_color(function):
-        """Обработка неправильного ввода"""
-
         def wrapper(self, user_color_index, *args, **kwargs):
             if user_color_index not in range(0, 3):
                 raise NotCorrectColorIndex("Введите корректный индекс цвета")
@@ -64,19 +62,11 @@ class RedBlack:
         return wrapper
 
     def __shuffle_game_box(self) -> list:
-        """
-            Перемешиваем все числа
-            Теперь у нас полноценная рулетка :)
-        """
         return random.shuffle(self.game_box)
-        #random.shuffle перемешивает список
 
     def __generate_number(self) -> int:
         """Генерируем выйграшное число"""
-        return random.sample(self.game_box, 1)[0]# <= Возращает не массив с чиcлом ,а только число
-        #random.sample берет массив за первый аргумент 
-        #и из него возращет рандомный список чисел(смотря скок надо)
-        
+        return random.sample(self.game_box, 1)[0]
 
     @check_correct_index_color
     def __from_color_index_to_number(self, user_color_index:int) -> int:
@@ -86,40 +76,14 @@ class RedBlack:
             return random.sample(self.black_numbers, 1)[0]
         return 0
 
-    def color_game(func):
-        """заменяем индекс выбранного цвета на сам цвет"""
-        def wrapper(self, name, password, user_bank,
-                        color, *args, **kwargs):
-            if self.user_number_bet == '':
-                if color == 0:
-                    color='green'
-                elif color == 1:
-                    color='red'
-                elif color == 2:
-                    color='black'
+    def _color_game(self, color: int) -> str:
+        return ['green', 'red', 'black'][color] 
 
-            func(self, name, password, user_bank, color, *args, **kwargs)
-        return wrapper
+    def _result_game_past(self, start_bank:int, end_bank:int)  -> str:
+        return ['win' if end_bank > start_bank else 'lose'][0]
 
-    def result_game_past(func):
-        """Конечный результат игры для записи в Json"""
-        def wrapper(self, name, password,  start_bank,
-                    color, end_bank, *args, **kwargs):
-            
-            if end_bank > start_bank:
-                result='win'
-            else:
-                result='lose'
-                
-            func(self, name, password, start_bank, color,
-                end_bank, result, *args, **kwargs)
-        return wrapper
-
-    @result_game_past
-    @color_game
     def adding_user_data(self, username:str, password:int, start_bank:int,
-                        color:int, end_bank:int, result) -> None:
-        
+                        color:int, end_bank:int) -> None:
         """Сохранения данных пользователя"""
         
         data = read_json_file(f'{USER_STATISTICS_GAME_PATH}')
@@ -128,27 +92,25 @@ class RedBlack:
                 data_us["history start bank"].append(start_bank)
                 data_us["bet"].append(self.bet)
                 data_us["history end bank"].append(end_bank)
-                data_us["result"].append(result)
+                data_us["result"].append(self._result_game_past(start_bank, end_bank))
                 data_us["current bank"] = end_bank
                 if self.user_number_bet == "":
-                    data_us["color"].append(color)
+                    data_us["color"].append(self._color_game(color))
                     break
 
-                data_us["number"].append(color)
+                data_us["number"].append(self._color_game(color))
                 break
-            
         else:
-            # если нет ,то добавляем usera в базу данных
             if self.user_number_bet == "":
                 data.update({
                     username:{
                         "password":password,
                         "history start bank":[start_bank],
                         "bet":[self.bet],
-                        "color":[color],
+                        "color":[self._color_game(color)],
                         "number":[],
                         "history end bank":[end_bank],
-                        "result":[result],
+                        "result":[self._result_game_past(start_bank, end_bank)],
                         "current bank":end_bank
                         }
                     })
@@ -159,19 +121,17 @@ class RedBlack:
                         "history start bank":[start_bank],
                         "bet":[self.bet],
                         "color":[],
-                        "number":[color],
+                        "number":[self._color_game(color)],
                         "history end bank":[end_bank],
-                        "result":[result],
+                        "result":[self._result_game_past(start_bank, end_bank)],
                         "current bank":end_bank
                         }
                     })
 
         write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
-    @result_game_past
-    @color_game
-    def adding_data_about_the_past_game(self, user_name:str, password:int, start_bank:int,
-                                        color:int, end_bank:int, result) -> None:
+    def adding_data_about_the_past_game(self, user_name:str, start_bank:int,
+                                        color:int, end_bank:int) -> None:
 
         if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
             data = read_json_file(f'{GAME_STATISTICS_PATH}')
@@ -183,18 +143,18 @@ class RedBlack:
                         "name":user_name,
                         "initial bank":start_bank,
                         "bet":self.bet,
-                        "color":color,
+                        "color":self._color_game(color),
                         "end bank":end_bank,
-                        "result": result
+                        "result": self._result_game_past(start_bank, end_bank)
                         })
         else:
             data.append({
                         "name":user_name,
                         "initial bank":start_bank,
                         "bet":self.bet,
-                        "number":color,
+                        "number":self._color_game(color),
                         "end bank":end_bank,
-                        "result": result
+                        "result": self._result_game_past(start_bank, end_bank)
                         })  
                         
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
@@ -212,18 +172,14 @@ class GameInteface:
             else:
                 numbers = self.game.game_box[game_number_index: game_number_index + 20]
 
-            # for index, number in enumerate(numbers, 1):
-            #     print(f"{number}\n", end='')
-            #     time.sleep(.1 + index/25)
-
             [(print(f"{number}\n", end='') ,time.sleep(.1 + index/25))
-                for index, number in enumerate(numbers, 1) ]
+                for index, number in enumerate(numbers, 1)]
             
             return function(self, *args, **kwargs)
 
         return wrapper
 
-    @drop_effect
+    # @drop_effect
     def game_result_information(self) -> None:
         if self.game.game_number in self.game.red_numbers:
             print(f"Выпало красное -- {self.game.game_number}")
