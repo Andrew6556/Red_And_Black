@@ -1,6 +1,9 @@
-from red_black import RedBlack, GameInteface
-from user import User, UserInterface
+from red_black import RedBlack
+from game_concol import GameInteface
+from user import User
+from user_concol import UserInterface
 from exceptions import*
+
 import inspect
 
 
@@ -49,7 +52,7 @@ while main:
                 
                 if user_int.print_authorization(user.user_authorization(user_name, user_password)) == True:
                     user_int.print_bank()
-                    current_bank = user.bank
+                    
                     print(inspect.cleandoc("""
                             Вы хотите добавить денег в банк?
                             1.Да
@@ -74,6 +77,8 @@ while main:
     1.C выбором цвета(их всего три: черный, красный и самый редкий зеленый) - не особо рисковая игра
     2.Наиболее рисковая игра. Выбераете число если оно выпадает, то вы выйграли - большой куш ,но и риск проиграть высок :)
     """))
+    
+    current_bank = user.bank
     
     choice_game = int(input('Введите вариант игры(цифрой): '))
 
