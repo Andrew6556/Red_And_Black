@@ -118,23 +118,14 @@ class RedBlack:
         else:
             data = []
 
-        if self.user_number_bet == '':
-            data.append({
-                        "name":user_name,
-                        "initial bank":start_bank,
-                        "bet":self.bet,
-                        "color":self._color_game(color),
-                        "end bank":end_bank,
-                        "result": self._result_game_past(start_bank, end_bank)
-                        })
-        else:
-            data.append({
-                        "name":user_name,
-                        "initial bank":start_bank,
-                        "bet":self.bet,
-                        "number":self._color_game(color),
-                        "end bank":end_bank,
-                        "result": self._result_game_past(start_bank, end_bank)
-                        })  
+        data.append({
+                    "name":user_name,
+                    "initial bank":start_bank,
+                    "bet":self.bet,
+                    "color":[self._color_game(color)if self.user_number_bet == "" else None],
+                    "number":[color if self.user_number_bet != "" else None],
+                    "end bank":end_bank,
+                    "result": self._result_game_past(start_bank, end_bank)
+                    })
                         
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
