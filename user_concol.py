@@ -23,11 +23,28 @@ class UserInterface:
         """Вывод текущего состояния банка"""
         print(f"Ваш текущий банк -- {self.user.bank}")
 
-    def print_authorization(self, func):
+    def print_authorization(self, name: str, password: int):
         """Вывод результатов авторизации"""
-        if func != None:
-            print('Авторизация прошел успешна')
-            self.user._finding_the_current_bank()
-            return True
-        else:
-            print('Ошибка вводе данных')
+        try:
+            self.game.user_authorization(name, password)
+        except UserNameDoesNotExist:
+            print('Такого имени не существует в базе')
+        except PasswordError:
+            print('Неверный пароль!')
+
+        print('Авторизация прошел успешна')
+        # if func != None:
+        #     print('Авторизация прошел успешна')
+        #     self.user._finding_the_current_bank()
+        #     return True
+        # else:
+        #     print('Ошибка вводе данных')
+
+    # def print_authorization(self, func):
+    #     """Вывод результатов авторизации"""
+    #     if func != None:
+    #         print('Авторизация прошел успешна')
+    #         self.user._finding_the_current_bank()
+    #         return True
+    #     else:
+    #         print('Ошибка вводе данных')

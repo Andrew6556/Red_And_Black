@@ -7,10 +7,16 @@ class User:
 
     @staticmethod
     def user_authorization(name:str, password:int) -> object:
-        for user, data_us in read_json_file(USERS_PATH).items():
-            if user == name and password == data_us['password']:
-                return User(name, password)
-            
+        try: 
+            user_hash = read_json_file(USERS_PATH)[name]
+        except KeyError:
+            raise UserNameDoesNotExist
+        
+        if user_hash["password"] == password:
+            return User(name, password)
+        
+        raise PasswordError
+
     def __init__(self, name:str , password:int, bank=0) -> None:
         self.username = name
         self.password = password
