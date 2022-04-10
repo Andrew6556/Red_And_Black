@@ -81,8 +81,8 @@ class RedBlack:
         """Сохранения данных пользователя"""
         
         data = read_json_file(f'{USER_STATISTICS_GAME_PATH}')
-        for users, data_us in data.items():
-            if users == username and data_us["password"] == password:
+        for user, data_us in data.items():
+            if user == username and data_us["password"] == password:
                 data_us["history start bank"].append(start_bank)
                 data_us["bet"].append(self.bet)
                 data_us["history end bank"].append(end_bank)
@@ -92,36 +92,22 @@ class RedBlack:
                     data_us["color"].append(self._color_game(color))
                     break
 
-                data_us["number"].append(self._color_game(color))
+                data_us["number"].append(color)
                 break
         else:
-            if self.user_number_bet == "":
-                data.update({
-                    username:{
-                        "password":password,
-                        "history start bank":[start_bank],
-                        "bet":[self.bet],
-                        "color":[self._color_game(color)],
-                        "number":[],
-                        "history end bank":[end_bank],
-                        "result":[self._result_game_past(start_bank, end_bank)],
-                        "current bank":end_bank
-                        }
-                    })
-            else:
-                data.update({
-                    username:{
-                        "password":password,
-                        "history start bank":[start_bank],
-                        "bet":[self.bet],
-                        "color":[],
-                        "number":[self._color_game(color)],
-                        "history end bank":[end_bank],
-                        "result":[self._result_game_past(start_bank, end_bank)],
-                        "current bank":end_bank
-                        }
-                    })
-
+            data.update({
+                username:{
+                    "password":password,
+                    "history start bank":[start_bank],
+                    "bet":[self.bet],
+                    "color":[self._color_game(color)if self.user_number_bet == "" else None],
+                    "number":[color if self.user_number_bet != "" else None],
+                    "history end bank":[end_bank],
+                    "result":[self._result_game_past(start_bank, end_bank)],
+                    "current bank":end_bank
+                    }
+                })
+            
         write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
     def adding_data_about_the_past_game(self, user_name:str, start_bank:int,

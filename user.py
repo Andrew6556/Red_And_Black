@@ -7,8 +7,8 @@ class User:
 
     @staticmethod
     def user_authorization(name:str, password:int) -> object:
-        for users, data_us in read_json_file(USERS_PATH).items():
-            if users == name and password == data_us['password']:
+        for user, data_us in read_json_file(USERS_PATH).items():
+            if user == name and password == data_us['password']:
                 return User(name, password)
             
     def __init__(self, name:str , password:int, bank=0) -> None:
@@ -17,13 +17,13 @@ class User:
         self.bank = bank
 
     def _finding_the_current_bank(self) -> None:
-        for users, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
-            if users == self.username and self.password == data_us['password']:
+        for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
+            if user == self.username and self.password == data_us['password']:
                 self.bank = data_us["current bank"]
                 break 
         else:
-            for users, data_us in read_json_file(USERS_PATH).items():
-                if users == self.username and self.password == data_us['password']:
+            for user, data_us in read_json_file(USERS_PATH).items():
+                if user == self.username and self.password == data_us['password']:
                     self.bank = data_us["bank"]
                     break
     

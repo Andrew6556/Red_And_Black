@@ -158,7 +158,7 @@ while main:
             user.bank += prize
             user_int.print_bank()
 
-            game.adding_data_about_the_past_game(user_name,  current_bank, choice_num, user.bank)
+            # game.adding_data_about_the_past_game(user_name,  current_bank, choice_num, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, choice_num, user.bank)
             choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
 
