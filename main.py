@@ -43,14 +43,13 @@ while main:
             
         elif user_choice == 2:
             while loop:
-                
                 user_name = input('Введите ваше имя\n')
                 user_password = int(input('Введите пароль\n'))
 
                 user = User(user_name, user_password)
                 user_int = UserInterface(user)
                 
-                if user_int.print_authorization(user_name, user_password) == True:
+                if user_int.print_authentication(user_name, user_password) == True:
                     user_int.print_bank()
                     
                     print(inspect.cleandoc("""

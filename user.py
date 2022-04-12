@@ -6,7 +6,7 @@ from path_file import*
 class User:
 
     @staticmethod
-    def user_authorization(name:str, password:int) -> object:
+    def authenticate(name:str, password:int) -> object:
         try: 
             user_hash = read_json_file(USERS_PATH)[name]
         except KeyError:
@@ -22,6 +22,17 @@ class User:
         self.password = password
         self.bank = bank
 
+    def authentication_checks(func):
+        def wrapper(self):
+            for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
+                if user == self.username and self.password == data_us['password']:
+                    func(self)
+                    break
+            else:
+                raise UserDoesNotAuthenticated
+        return wrapper
+
+    @authentication_checks
     def _finding_the_current_bank(self) -> None:
         for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
             if user == self.username and self.password == data_us['password']:

@@ -21,3 +21,6 @@ class UserNameDoesNotExist(Exception):
 
 class PasswordError(Exception):
     pass
+
+class UserDoesNotAuthenticated(Exception):
+    pass

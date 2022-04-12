@@ -23,10 +23,12 @@ class UserInterface:
         """Вывод текущего состояния банка"""
         print(f"Ваш текущий банк -- {self.user.bank}")
 
-    def print_authorization(self, name: str, password: int):
+    # def authentication_check
+
+    def print_authentication(self, name: str, password: int):
         """Вывод результатов авторизации"""
         try:
-            self.user.user_authorization(name, password)
+            self.user.authenticate(name, password)
         except UserNameDoesNotExist:
             print('Такого имени не существует в базе')
         except PasswordError:
