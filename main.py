@@ -13,10 +13,12 @@ main: bool = True
 while main:
     while loop:
         user_choice = int(input(inspect.cleandoc("""
-        Что вы хотите сделать
-        1.Зарегистрироваться
-        2.Войти 
-        """)))
+                                Что вы хотите сделать
+                                1.Зарегистрироваться
+                                2.Войти 
+                                """
+                            ))
+                        )
         
         if user_choice == 1:
             
@@ -37,8 +39,7 @@ while main:
                     console.correct_password_processing()
                 else:
                     break
-            
-            
+                
             print('Регистрация прошла успешно')
             
         elif user_choice == 2:
@@ -46,10 +47,23 @@ while main:
                 user_name = input('Введите ваше имя\n')
                 user_password = int(input('Введите пароль\n'))
 
-                user = User(user_name, user_password)
-                user_int = UserInterface(user)
-                
-                if user_int.print_authentication(user_name, user_password) == True:
+                try:
+                    user = User.authenticate(user_name, user_password)
+                    user_int = UserInterface(user)
+
+                except UserNameDoesNotExist:
+                    print('Такого имени не существует в базе')
+                except PasswordError:
+                    print('Неверный пароль!')
+
+                print(f"""
+                        name - {user.username}
+                        password - {user.password}
+                        аутенфикация - {user.is_authenticate}
+                        """)
+                break
+
+                if user.is_authenticate == True:
                     user_int.print_bank()
                     
                     print(inspect.cleandoc("""
@@ -70,7 +84,7 @@ while main:
                     elif choice_to_add_money_to_the_bank == 2:
                         print('Хорошей игры :)')
                         loop: bool = False
-
+    break
     print(inspect.cleandoc("""
     Выбирете какой вариант игры вам подходит:
     1.C выбором цвета(их всего три: черный, красный и самый редкий зеленый) - не особо рисковая игра

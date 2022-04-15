@@ -4,23 +4,28 @@ from exceptions import*
 from path_file import*
 
 class User:
+    
 
     @staticmethod
-    def authenticate(name:str, password:int) -> object:
+    def authenticate(name: str, password: int) -> object:
         try: 
             user_hash = read_json_file(USERS_PATH)[name]
+            print(user_hash)
         except KeyError:
             raise UserNameDoesNotExist
         
         if user_hash["password"] == password:
-            return User(name, password)
+            return User(name, password, True)
         
         raise PasswordError
 
-    def __init__(self, name:str , password:int, bank=0) -> None:
+    def __init__(self, name: str , password: int, 
+                authenticate=False, bank=0) -> None:
+
         self.username = name
         self.password = password
         self.bank = bank
+        self.is_authenticate = authenticate
 
     def authentication_checks(func):
         def wrapper(self):
@@ -32,7 +37,7 @@ class User:
                 raise UserDoesNotAuthenticated
         return wrapper
 
-    @authentication_checks
+    # @authentication_checks
     def _finding_the_current_bank(self) -> None:
         for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
             if user == self.username and self.password == data_us['password']:
