@@ -87,7 +87,6 @@ class RedBlack:
                 data_us["bet"].append(self.bet)
                 data_us["history end bank"].append(end_bank)
                 data_us["result"].append(self._result_game_past(start_bank, end_bank))
-                data_us["current bank"] = end_bank
                 if self.user_number_bet == "":
                     data_us["color"].append(self._color_game(color))
                     break
@@ -104,14 +103,13 @@ class RedBlack:
                     "number":[color if self.user_number_bet != "" else None],
                     "history end bank":[end_bank],
                     "result":[self._result_game_past(start_bank, end_bank)],
-                    "current bank":end_bank
                     }
                 })
             
         write_json_file(f'{USER_STATISTICS_GAME_PATH}', data)
 
-    def adding_data_about_the_past_game(self, user_name:str, start_bank:int,
-                                        color:int, end_bank:int) -> None:
+    def adding_data_about_the_past_game(self, user_name: str, start_bank: int,
+                                        color: int, end_bank: int) -> None:
 
         if os.stat(f'data/{GAME_STATISTICS_PATH}').st_size:
             data = read_json_file(f'{GAME_STATISTICS_PATH}')
@@ -129,3 +127,14 @@ class RedBlack:
                     })
                         
         write_json_file(f'{GAME_STATISTICS_PATH}', data)
+    
+    def update_current_bank_json(self, username: str, password: int, current_bank: int):
+        data = read_json_file(USERS_PATH)
+        for user, data_us in data.items():
+            if user == username and data_us["password"] == password:
+                data_us["bank"] = current_bank
+
+        write_json_file(USERS_PATH, data)
+
+
+

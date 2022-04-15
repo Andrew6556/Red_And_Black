@@ -8,46 +8,36 @@ class User:
 
     @staticmethod
     def authenticate(name: str, password: int) -> object:
-        try: 
+        try:
             user_hash = read_json_file(USERS_PATH)[name]
-            print(user_hash)
         except KeyError:
             raise UserNameDoesNotExist
         
         if user_hash["password"] == password:
-            return User(name, password, True)
+            bank = user_hash["bank"]
+            return User(name, password, bank, True)
         
         raise PasswordError
 
     def __init__(self, name: str , password: int, 
-                authenticate=False, bank=0) -> None:
+                bank=0, authenticate=False) -> None:
 
         self.username = name
         self.password = password
-        self.bank = bank
         self.is_authenticate = authenticate
+        self.bank = bank
 
-    def authentication_checks(func):
-        def wrapper(self):
-            for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
-                if user == self.username and self.password == data_us['password']:
-                    func(self)
-                    break
-            else:
-                raise UserDoesNotAuthenticated
-        return wrapper
+    # def authentication_checks(func):
+    #     def wrapper(self, bank):
+    #         if self.is_authenticate == False:
+    #             raise UserDoesNotAuthenticated
+            
+    #         return func(self, bank)
+    #     return wrapper
 
     # @authentication_checks
-    def _finding_the_current_bank(self) -> None:
-        for user, data_us in read_json_file(USER_STATISTICS_GAME_PATH).items():
-            if user == self.username and self.password == data_us['password']:
-                self.bank = data_us["current bank"]
-                break 
-        else:
-            for user, data_us in read_json_file(USERS_PATH).items():
-                if user == self.username and self.password == data_us['password']:
-                    self.bank = data_us["bank"]
-                    break
+    # def _finding_the_current_bank(self, bank) -> int:
+    #     self.bank += bank
     
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""

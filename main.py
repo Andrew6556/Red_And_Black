@@ -56,13 +56,6 @@ while main:
                 except PasswordError:
                     print('Неверный пароль!')
 
-                print(f"""
-                        name - {user.username}
-                        password - {user.password}
-                        аутенфикация - {user.is_authenticate}
-                        """)
-                break
-
                 if user.is_authenticate == True:
                     user_int.print_bank()
                     
@@ -84,7 +77,7 @@ while main:
                     elif choice_to_add_money_to_the_bank == 2:
                         print('Хорошей игры :)')
                         loop: bool = False
-    break
+
     print(inspect.cleandoc("""
     Выбирете какой вариант игры вам подходит:
     1.C выбором цвета(их всего три: черный, красный и самый редкий зеленый) - не особо рисковая игра
@@ -124,6 +117,7 @@ while main:
 
             game.adding_data_about_the_past_game(user_name, current_bank, user_color_choice, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
+            game.update_current_bank_json(user.username ,user.password, user.bank)
             choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
 
             if user.bank == 0:
@@ -173,6 +167,7 @@ while main:
 
             game.adding_data_about_the_past_game(user_name,  current_bank, choice_num, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, choice_num, user.bank)
+            game.update_current_bank_json(user.username ,user.password, user.bank)
             choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
 
             if user.bank == 0:
