@@ -12,13 +12,14 @@ loop: bool = True
 main: bool = True
 while main:
     while loop:
-        user_choice = int(input(inspect.cleandoc("""
-                                Что вы хотите сделать
-                                1.Зарегистрироваться
-                                2.Войти 
-                                """
+        user_choice = int(input
+                        (inspect.cleandoc
+                            ("""
+                            Что вы хотите сделать
+                            1.Зарегистрироваться
+                            2.Войти 
+                            """)
                             ))
-                        )
         
         if user_choice == 1:
             
@@ -28,6 +29,7 @@ while main:
                 user_bank_game = int(input("Ваш банк: "))
                 
                 user = User(user_name, user_password, user_bank_game)
+                
                 console = UserInterface(user)
                 try:
                     user.user_registration()
@@ -50,33 +52,35 @@ while main:
                 try:
                     user = User.authenticate(user_name, user_password)
                     user_int = UserInterface(user)
-
+                    
                 except UserNameDoesNotExist:
                     print('Такого имени не существует в базе')
                 except PasswordError:
                     print('Неверный пароль!')
+                except UserDoesNotAuthenticated:
+                    print('Вы не прошли аутенфикацию')
+                
+            if user.is_authenticate == True:
+                user_int.print_bank()
+                
+                print(inspect.cleandoc("""
+                        Вы хотите добавить денег в банк?
+                        1.Да
+                        2.Нет
+                        """))
 
-                if user.is_authenticate == True:
+                choice_to_add_money_to_the_bank = int(input('Напишите цифрой, что вы выбрали: '))
+
+                if choice_to_add_money_to_the_bank == 1:
+                    addition_amount = int(input('Введите сумму которую хотите добавить\n'))
+                    user.update_bank(addition_amount)
                     user_int.print_bank()
-                    
-                    print(inspect.cleandoc("""
-                            Вы хотите добавить денег в банк?
-                            1.Да
-                            2.Нет
-                            """))
+                    print('Хорошей игры :)')
+                    loop: bool = False
 
-                    choice_to_add_money_to_the_bank = int(input('Напишите цифрой, что вы выбрали: '))
-    
-                    if choice_to_add_money_to_the_bank == 1:
-                        addition_amount = int(input('Введите сумму которую хотите добавить\n'))
-                        user.update_bank(addition_amount)
-                        user_int.print_bank()
-                        print('Хорошей игры :)')
-                        loop: bool = False
-
-                    elif choice_to_add_money_to_the_bank == 2:
-                        print('Хорошей игры :)')
-                        loop: bool = False
+                elif choice_to_add_money_to_the_bank == 2:
+                    print('Хорошей игры :)')
+                    loop: bool = False
 
     print(inspect.cleandoc("""
     Выбирете какой вариант игры вам подходит:

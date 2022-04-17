@@ -14,30 +14,32 @@ class User:
             raise UserNameDoesNotExist
         
         if user_hash["password"] == password:
-            bank = user_hash["bank"]
-            return User(name, password, bank, True)
-        
+            return User(name, password, user_hash, True)
+
         raise PasswordError
 
-    def __init__(self, name: str , password: int, 
+    def __init__(self, name: str, password: int, 
                 bank=0, authenticate=False) -> None:
 
         self.username = name
         self.password = password
         self.is_authenticate = authenticate
-        self.bank = bank
+        self.bank = self._get_user_bank(bank)
 
-    # def authentication_checks(func):
-    #     def wrapper(self, bank):
-    #         if self.is_authenticate == False:
-    #             raise UserDoesNotAuthenticated
-            
-    #         return func(self, bank)
-    #     return wrapper
+    def authentication_checks(func):
+        def wrapper(self, bank):
+            if type(bank) == dict:
+                if self.is_authenticate == False:
+                    raise UserDoesNotAuthenticated
+                return func(self, bank['bank'])
+            else:
+                return func(self, bank)    
 
-    # @authentication_checks
-    # def _finding_the_current_bank(self, bank) -> int:
-    #     self.bank += bank
+        return wrapper
+
+    @authentication_checks
+    def _get_user_bank(self, bank) -> int:
+        return bank
     
     def checking_for_password_complexity(func):
         """Проверяем на сложность пароль"""
@@ -63,7 +65,7 @@ class User:
     @checking_for_correct_login
     def user_registration(self):
 
-        if os.stat(f'data/{USERS_PATH}',).st_size:
+        if os.stat(f'data/{USERS_PATH}').st_size:
             data = read_json_file(USERS_PATH)
         else:
             data = {}
