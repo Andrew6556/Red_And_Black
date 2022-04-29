@@ -59,6 +59,8 @@ while main:
                     print('Неверный пароль!')
                 except UserDoesNotAuthenticated:
                     print('Вы не прошли аутенфикацию')
+                else:
+                    break
                 
             if user.is_authenticate == True:
                 user_int.print_bank()
