@@ -12,14 +12,11 @@ loop: bool = True
 main: bool = True
 while main:
     while loop:
-        user_choice = int(input
-                        (inspect.cleandoc
-                            ("""
-                            Что вы хотите сделать
-                            1.Зарегистрироваться
-                            2.Войти 
-                            """)
-                            ))
+        user_choice = int(input("\
+            \nЧто вы хотите сделать:\
+            \n1.Зарегистрироваться\
+            \n2.Войти\
+            \nВаш выбор: "))
         
         if user_choice == 1:
             
@@ -59,30 +56,30 @@ while main:
                     print('Неверный пароль!')
                 except UserDoesNotAuthenticated:
                     print('Вы не прошли аутенфикацию')
-                else:
-                    break
                 
-            if user.is_authenticate == True:
-                user_int.print_bank()
-                
-                print(inspect.cleandoc("""
-                        Вы хотите добавить денег в банк?
-                        1.Да
-                        2.Нет
-                        """))
-
-                choice_to_add_money_to_the_bank = int(input('Напишите цифрой, что вы выбрали: '))
-
-                if choice_to_add_money_to_the_bank == 1:
-                    addition_amount = int(input('Введите сумму которую хотите добавить\n'))
-                    user.update_bank(addition_amount)
+                if user.is_authenticate == True:
                     user_int.print_bank()
-                    print('Хорошей игры :)')
-                    loop: bool = False
+                    
+                    print(inspect.cleandoc("""
+                            Вы хотите добавить денег в банк?
+                            1.Да
+                            2.Нет
+                            """))
 
-                elif choice_to_add_money_to_the_bank == 2:
-                    print('Хорошей игры :)')
-                    loop: bool = False
+                    choice_to_add_money_to_the_bank = int(input('Напишите цифрой, что вы выбрали: '))
+
+                    if choice_to_add_money_to_the_bank == 1:
+                        addition_amount = int(input('Введите сумму которую хотите добавить\n'))
+                        user.update_bank(addition_amount)
+                        user_int.print_bank()
+                        print('Хорошей игры :)')
+                        loop: bool = False
+
+                    elif choice_to_add_money_to_the_bank == 2:
+                        print('Хорошей игры :)')
+                        loop: bool = False
+                    else:
+                        print('ТАКОГО ВАРИНАТЫ НЕТУ!!!:)')
 
     print(inspect.cleandoc("""
     Выбирете какой вариант игры вам подходит:
@@ -124,13 +121,13 @@ while main:
             game.adding_data_about_the_past_game(user_name, current_bank, user_color_choice, user.bank)
             game.adding_user_data(user.username, user.password , current_bank, user_color_choice, user.bank)
             game.update_current_bank_json(user.username ,user.password, user.bank)
-            choice_end_programm = int(input('Для выхода из программы напишите "3"\n'))
+            choice_end_programm = input('Для выхода из программы напишите "3"\n')
 
             if user.bank == 0:
                 print('Игра окончена!\nУ вас недастаточно средств для продолжения')
                 main: bool = False
 
-            if choice_end_programm == 3:
+            if choice_end_programm == '3':
                 print('Вы успешно вышли из программы')
                 main: bool = False
             else:
